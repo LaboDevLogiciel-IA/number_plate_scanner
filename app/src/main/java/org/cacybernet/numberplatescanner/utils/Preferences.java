@@ -1,12 +1,12 @@
-/*
- * @project: Numberplate Scanner - https://gitlab.com/obrymec/number_plate_scanner
- * @fileoverview: Provides commons methods for native android preferences.
- * @author: Obrymec - obrymecsprinces@gmail.com
- * @file: Preferences.java
- * @created: 2024-04-29
- * @updated: 2024-05-11
- * @supported: ANDROID
- * @version: 0.0.1
+/**
+ * @fileoverview Provides commons methods for native android preferences.
+ * @organization UATM GASA Formation - https://uatm-gasa.com
+ * @author Obrymec - https://obrymec.vercel.app
+ * @file Preferences.java
+ * @created 2024-04-29
+ * @updated 2025-10-17
+ * @supported ANDROID
+ * @version 0.0.2
  */
 
 /// Package name.
@@ -64,12 +64,10 @@ public final class Preferences {
     // Whether key and value are defined.
     if (ctx != null && value != null && key != null) {
       // Gets shared preferences.
-      final SharedPreferences prefs = ctx.getSharedPreferences(
-        PREFS_NAME, Context.MODE_PRIVATE
-      );
-      // Creating an editor object to write on the file.
+      final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+      // Creating an editor object to write on file.
       final SharedPreferences.Editor editor = prefs.edit();
-      // Storing the key and its value as a data.
+      // Storing key and its value as a data.
       editor.putString(key, value);
       // Commits changes.
       editor.apply();
@@ -88,9 +86,7 @@ public final class Preferences {
     // Whether key and value are defined.
     if (ctx != null && key != null) {
       // Gets shared preferences.
-      final SharedPreferences prefs = ctx.getSharedPreferences(
-        PREFS_NAME, Context.MODE_PRIVATE
-      );
+      final SharedPreferences prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
       // Fetches associated value.
       return prefs.getString(key, init);
     // Otherwise.

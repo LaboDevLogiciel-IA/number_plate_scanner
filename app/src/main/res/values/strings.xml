@@ -36,6 +36,9 @@
   <string name = "time">Temps</string>
   <string name = "date">Date</string>
   <string name = "ok">OK</string>
+  <string name = "retrieve_error_message">
+    Impossible de récupérer et de traiter correctement les réponses émises du serveur.
+  </string>
   <string name = "settings_message">
     Fournissez le lien API à contacter pour le transfert des images récupérées.
   </string>
@@ -51,10 +54,6 @@
   <string name = "upload_error_message">
     Vérifiez votre réseau et assurez-vous d\'avoir une connexion internet
     stable puis réessayer à nouveau.
-  </string>
-  <string name = "retrieve_error_message">
-    Impossible de récupérer et de traiter correctement les réponses émises
-    du serveur.
   </string>
   <string name = "tutorial_message">
     Faites en sorte que l\'on puisse voire sur votre photo, le véhicule

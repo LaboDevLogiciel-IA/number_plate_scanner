@@ -1,12 +1,12 @@
-/*
- * @project: Numberplate Scanner - https://gitlab.com/obrymec/number_plate_scanner
- * @author: Obrymec - obrymecsprinces@gmail.com
- * @fileoverview: The startup screen.
- * @file: SplashScreen.java
- * @created: 2024-04-27
- * @updated: 2024-05-11
- * @supported: ANDROID
- * @version: 0.0.2
+/**
+ * @organization UATM GASA Formation - https://uatm-gasa.com
+ * @author Obrymec - https://obrymec.vercel.app
+ * @fileoverview The startup screen.
+ * @file SplashScreen.java
+ * @created 2024-04-27
+ * @updated 2025-10-17
+ * @supported ANDROID
+ * @version 0.0.3
  */
 
 /// Package name.
@@ -24,7 +24,7 @@ import org.cacybernet.numberplatescanner.presentation.MainScreen;
 import org.cacybernet.numberplatescanner.utils.System;
 
 /**
- * The application splash screen for the first startup.
+ * The application splash screen for first startup.
  */
 @SuppressLint("CustomSplashScreen")
 @SuppressWarnings("unused")
@@ -37,7 +37,7 @@ public class SplashScreen extends AppCompatActivity {
   protected void onCreate (Bundle savedInstanceState) {
     // Calls his parent method.
     super.onCreate(savedInstanceState);
-    // Binds the xml file to this java class.
+    // Binds xml file to this java class.
     this.setContentView(R.layout.splash_screen);
     // Changes native status bars color.
     System.getInstance().setBarsColor(R.color.primary_900, this);

@@ -1,12 +1,12 @@
-/*
- * @project: Numberplate Scanner - https://gitlab.com/obrymec/number_plate_scanner
- * @fileoverview: Provides some additional methods for dates/times.
- * @author: Obrymec - obrymecsprinces@gmail.com
- * @file: DateTime.java
- * @created: 2024-04-30
- * @updated: 2024-05-11
- * @supported: ANDROID
- * @version: 0.0.2
+/**
+ * @fileoverview Provides some additional methods for dates/times.
+ * @organization UATM GASA Formation - https://uatm-gasa.com
+ * @author Obrymec - https://obrymec.vercel.app
+ * @file DateTime.java
+ * @created 2024-04-30
+ * @updated 2025-10-17
+ * @supported ANDROID
+ * @version 0.0.3
  */
 
 /// Package name.
@@ -51,19 +51,19 @@ public final class DateTime {
 	 */
 	@Nullable
 	public String parseDate (LocalDate date) {
-		// Whether the date is not defined.
+		// Whether date is not defined.
 		if (date != null) {
 			// The month of year.
 			String month = Integer.toString(date.getMonthValue());
 			// The day of month.
 			String day = (Integer.toString(date.getDayOfMonth()));
-			// Corrects the month.
+			// Corrects month.
 			month = (month.length() < 2 ? ("0" + month) : month);
 			// The year value.
 			String year = (Integer.toString(date.getYear()));
-			// Corrects the year.
+			// Corrects year.
 			year = (year.length() < 2 ? ("0" + year) : year);
-			// Corrects the day.
+			// Corrects day.
 			day = (day.length() < 2 ? ("0" + day) : day);
 			// Sends result.
 			return (day + "/" + month + "/" + year);
@@ -79,7 +79,7 @@ public final class DateTime {
 	 */
 	@Nullable
 	public String parseTime (LocalTime time) {
-		// Whether the time is not defined.
+		// Whether time is not defined.
 		if (time != null) {
 			// The second value.
 			String second = (Integer.toString(time.getSecond()));

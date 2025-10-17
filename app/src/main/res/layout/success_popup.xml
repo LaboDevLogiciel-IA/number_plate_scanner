@@ -69,8 +69,8 @@
       android:textAllCaps = "false"
       android:layout_width = "0dp"
       android:id = "@+id/validate"
-      android:text = "@string/ok"
       android:layout_weight = "1"
+      android:text = "@string/ok"
       android:gravity = "center"
       android:textSize = "15sp"
     />

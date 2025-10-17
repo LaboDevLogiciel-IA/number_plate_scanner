@@ -1,20 +1,24 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <resources>
   <color name = "transparent">#00000000</color>
+  <color name = "primary_000">#0AEFE6FD</color>
+  <color name = "primary_300">#F4B78AF7</color>
+  <color name = "primary_200">#B78AF7</color>
   <color name = "primary_400">#8133F1</color>
-  <color name = "primary_200">#b78af7</color>
-  <color name = "primary_900">#290064</color>
+  <color name = "primary_500">#5900D9</color>
+  <color name = "primary_600">#9654F4</color>
   <color name = "primary_800">#360083</color>
-  <color name = "primary_50">#efe6fd</color>
+  <color name = "primary_900">#290064</color>
+  <color name = "primary_50">#EFE6FD</color>
   <color name = "neutral_10">#262626</color>
   <color name = "neutral_12">#141414</color>
-  <color name = "popup_bg">#ffffffeb</color>
-  <color name = "neutral_1">#ffffff</color>
-  <color name = "neutral_2">#fcfcfc</color>
-  <color name = "neutral_4">#f0f0f0</color>
-  <color name = "neutral_5">#d9d9d9</color>
-  <color name = "neutral_6">#bfbfbf</color>
-  <color name = "neutral_7">#8c8c8c</color>
+  <color name = "popup_bg">#FFFFFFEB</color>
+  <color name = "neutral_1">#FFFFFF</color>
+  <color name = "neutral_2">#FCFCFC</color>
+  <color name = "neutral_4">#F0F0F0</color>
+  <color name = "neutral_5">#D9D9D9</color>
+  <color name = "neutral_6">#BFBFBF</color>
+  <color name = "neutral_7">#8C8C8C</color>
   <color name = "neutral_8">#595959</color>
   <color name = "neutral_9">#454545</color>
   <color name = "black_900">#000000</color>

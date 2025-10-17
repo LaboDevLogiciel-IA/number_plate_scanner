@@ -2,20 +2,17 @@
 <!--Themes-->
 <resources>
   <!--Colors theme-->
-  <style
-    parent = "Theme.AppCompat.Light.NoActionBar"
-    name = "Theme.NumberplateScanner"
-  >
+  <style parent = "Theme.AppCompat.Light.NoActionBar" name = "Theme.NumberplateScanner">
     <item name = "android:statusBarColor">@color/primary_900</item>
   </style>
   <!--EditText theme-->
-  <style name = "EditText" parent = "Theme.AppCompat.Light.NoActionBar">
+  <style parent = "Theme.AppCompat.Light.NoActionBar" name = "EditText">
     <item name = "colorControlActivated">@color/primary_900</item>
     <item name = "colorControlHighlight">@color/primary_900</item>
     <item name = "colorControlNormal">@color/primary_900</item>
   </style>
   <!--Dialog box theme-->
-  <style name = "DialogTheme" parent = "Theme.AppCompat.Light.Dialog.Alert">
+  <style parent = "Theme.AppCompat.Light.Dialog.Alert" name = "DialogTheme">
     <item name = "shapeAppearanceOverlay">@drawable/popup_bg</item>
     <item name = "android:background">@drawable/popup_bg</item>
   </style>

@@ -1,12 +1,12 @@
-/*
- * @project: Numberplate Scanner - https://gitlab.com/obrymec/number_plate_scanner
- * @fileoverview: Provides commons methods for android system.
- * @author: Obrymec - obrymecsprinces@gmail.com
- * @created: 2024-04-29
- * @updated: 2024-05-29
- * @supported: ANDROID
- * @file: System.java
- * @version: 0.1.2
+/**
+ * @fileoverview Provides commons methods for android system.
+ * @organization UATM GASA Formation - https://uatm-gasa.com
+ * @author Obrymec - https://obrymec.vercel.app
+ * @created 2024-04-29
+ * @updated 2025-10-17
+ * @supported ANDROID
+ * @file System.java
+ * @version 0.1.3
  */
 
 /// Package name.
@@ -131,7 +131,7 @@ public final class System {
   }
 
   /**
-   * Returns the associated mime type of an image file.
+   * Returns associated mime type of an image file.
    * @param path The path of the file.
    * @return String
    */
@@ -141,7 +141,7 @@ public final class System {
     final File image = new File(path);
     // Generates a default mme type regardless image format.
     final String mmeType = ("image/" + image.getName().split("\\.")[1]);
-    // Whether the passed image is a .jpeg/jpg.
+    // Whether passed image is a (.jpeg/jpg).
     return (mmeType.equals("image/jpg") ? "image/jpeg" : mmeType);
   }
 
@@ -176,7 +176,7 @@ public final class System {
   }
 
   /**
-   * Returns the created camera capture image path.
+   * Returns created camera capture image path.
    * @param ctx The application context.
    * @param image The captured image.
    * @return Uri
@@ -186,7 +186,7 @@ public final class System {
     final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     // Compress bitmap to jpg.
     image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-    // Sends the final path.
+    // Sends final path.
     return Uri.parse(
       MediaStore.Images.Media.insertImage(ctx.getContentResolver(), image, "Title", null)
     );
@@ -209,7 +209,7 @@ public final class System {
   }
 
   /**
-   * Overrides the default color of native system status bars.
+   * Overrides default color of native system status bars.
    * @param colorId The new color to be used.
    * @param ctx The activity where this effect must be done.
    */
@@ -218,7 +218,7 @@ public final class System {
     final Window window = ctx.getWindow();
     // Clears `FLAG_TRANSLUCENT_STATUS` flag.
     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-    // Adds `FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS` flag to the window.
+    // Adds `FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS` flag to window.
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
     // Sets bottom navigation bar color.
     window.setNavigationBarColor(ContextCompat.getColor(ctx, colorId));
@@ -234,7 +234,7 @@ public final class System {
   public void trackInputSubmitEvent (@NonNull EditText input, InputSubmitEvent onSubmit) {
     // Tracks native device keyboard `submit` event on that field.
     input.setOnEditorActionListener((v, actionId, event) -> {
-      // Whether we detect a tap on `return` button of the keyboard.
+      // Whether we detect a tap on `return` button of keyboard.
       if (actionId == EditorInfo.IME_ACTION_DONE) {
         // Throws `submit` event.
         onSubmit.onSubmit(input);
@@ -257,9 +257,9 @@ public final class System {
       final Intent imagePicker = new Intent(Intent.ACTION_PICK);
       // Sets mme type.
       imagePicker.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-      // Allows .jpeg, jpg and png files only.
+      // Allows (.jpeg), (.jpg) and (.png) files only.
       imagePicker.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/jpeg", "image/png"});
-      // Pass the request code for future check.
+      // Pass request code for future check.
       // noinspection deprecation
       ctx.startActivityForResult(
         Intent.createChooser(imagePicker, ctx.getString(R.string.select_image)), 201
@@ -293,7 +293,7 @@ public final class System {
   }
 
   /**
-   * Saves the given api link into local storage.
+   * Saves given api link into local storage.
    * @param newApiLink The api link to contact for submitting image.
    * @param oldApiLink The old saved api link value.
    * @param popup The dialog box object instance.
@@ -317,12 +317,12 @@ public final class System {
         ctx, ctx.getString(R.string.no_change_detected), Toast.LENGTH_LONG
       ).show();
     }
-    // Closes the dialog.
+    // Closes dialog.
     popup.dismiss();
   }
 
   /**
-   * Returns the real path of a picked file from native picker.
+   * Returns real path of a picked file from native picker.
    * @param ctx The application context.
    * @param uri The fetched file uri.
    * @return String
@@ -337,7 +337,7 @@ public final class System {
     if (cursor != null) {
       // Gets element column index.
       final int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-      // Refreshes the cursor.
+      // Refreshes cursor.
       cursor.moveToFirst();
       // Gets real hidden path.
       final String path = cursor.getString(columnIndex);
@@ -360,7 +360,7 @@ public final class System {
   public String getBase64Data (String path) throws IOException {
     // Initializes an output stream.
     final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    // Creates a stream from the retrieved path.
+    // Creates a stream from retrieved path.
     final InputStream inputStream = new FileInputStream(path);
     // Allocates a buffer in memory.
     final byte[] buffer = new byte[8192];
@@ -368,7 +368,7 @@ public final class System {
     final byte[] bytes;
     // The cursor to nagivate through bytes.
     int bytesRead;
-    // We don't at the end of file.
+    // We don't at end of file.
     while ((bytesRead = inputStream.read(buffer)) != -1) {
       // Creates buffer for each byte.
       output.write(buffer, 0, bytesRead);
@@ -397,7 +397,7 @@ public final class System {
       final Uri selectedImageUri = data.getData();
       // Whether we have a valid path.
       if (selectedImageUri != null) {
-        // Converts the selected image into bitmap.
+        // Converts selected image into bitmap.
         final Bitmap selectedImageBitmap = MediaStore.Images.Media.getBitmap(
           ctx.getContentResolver(), selectedImageUri
         );
@@ -449,9 +449,9 @@ public final class System {
    * Initializes and builds a dialog for custom use.
    * @param onInit Called when dialog is fulled initialized.
    * @param ctx The activity context.
-   * @param dismissible Whether we can tap outside the dialog to close it.
+   * @param dismissible Whether we can tap outside dialog to close it.
    * @param padding Overrides padding between window and dialog.
-   * @param view The xml file to be used to represent the popup.
+   * @param view The xml file to be used to represent popup.
    */
   public void initializeDialog (
     @NonNull DialogEvent onInit,
@@ -468,7 +468,7 @@ public final class System {
     builder.setCancelable(dismissible);
     // Sets default view.
     builder.setView(controls);
-    // Let's build the dialog.
+    // Let's build dialog.
     final Dialog dialog = builder.create();
     // Disables cancelable.
     dialog.setCanceledOnTouchOutside(dismissible);
@@ -480,7 +480,7 @@ public final class System {
     );
     // Calls `init` event.
     onInit.onInit(controls, dialog);
-    // Displays the custom dialog.
+    // Displays custom dialog.
     dialog.show();
   }
 
@@ -591,30 +591,32 @@ public final class System {
    * @param onError Called when something wrong.
    */
   public void submitForm (
-    String apiUrl, String path, String offense, Bitmap bitmap,
-    Handler handler, FormSuccessEvent onSuccess,
+    String apiUrl,
+    String path,
+    String offense,
+    Bitmap bitmap,
+    Handler handler,
+    FormSuccessEvent onSuccess,
     FormErrorEvent onError
   ) {
-    // Tries to upload data to the remote back-end server.
+    // Tries to upload data to remote back-end server.
     try {
       // Creates an instance of file to contains image.
       final File imageFile = new File(path);
       // Generates a default mme type according to image extension.
       String mmeType = ("image/" + imageFile.getName().split("\\.")[1]);
-      // Whether the passed image is a .jpeg/jpg.
-      mmeType = (mmeType.equals("image/jpg") ? "image/jpeg" : mmeType);
       // Prepares binary stream for loaded image.
       final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-      // Whether the given image is a .jpeg/jpg.
-      if (mmeType.equals("image/jpeg")) bitmap.compress(
-        Bitmap.CompressFormat.JPEG, 100, stream
-      );
+      // Whether passed image is a (.jpeg/jpg).
+      mmeType = (mmeType.equals("image/jpg") ? "image/jpeg" : mmeType);
+      // Whether given image is a (.jpeg/jpg).
+      if (mmeType.equals("image/jpeg")) bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
       // Otherwise.
       else bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-      // Gets bitmap as an array of bytes (Binary format).
-      final byte[] bitmapdata = stream.toByteArray();
       // Initializes a client http request.
       final OkHttpClient client = new OkHttpClient();
+      // Gets bitmap as an array of bytes (Binary format).
+      final byte[] bitmapdata = stream.toByteArray();
       // Sets default timeout connection.
       client.setConnectTimeout(180, TimeUnit.SECONDS);
       // Sets default write timeout.
@@ -623,9 +625,9 @@ public final class System {
       client.setReadTimeout(180, TimeUnit.SECONDS);
       // Initializes a request for form submission.
       final RequestBody body = new MultipartBuilder()
-        .type(MultipartBuilder.FORM).addFormDataPart("offense", offense)
+        .type(MultipartBuilder.FORM)
         .addFormDataPart(
-          "carimg", imageFile.getName(),
+          "file", imageFile.getName(),
           RequestBody.create(MediaType.parse(mmeType), bitmapdata)
         ).build();
       // The real request to be performed to server.

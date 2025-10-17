@@ -1,12 +1,12 @@
-/*
- * @project: Numberplate Scanner - https://gitlab.com/obrymec/number_plate_scanner
- * @author: Obrymec - obrymecsprinces@gmail.com
- * @fileoverview: The home screen.
- * @file: MainScreen.java
- * @created: 2024-04-27
- * @updated: 2024-05-16
- * @supported: ANDROID
- * @version: 0.2.7
+/**
+ * @organization UATM GASA Formation - https://uatm-gasa.com
+ * @author Obrymec - https://obrymec.vercel.app
+ * @fileoverview The home screen.
+ * @file MainScreen.java
+ * @created 2024-04-27
+ * @updated 2025-10-17
+ * @supported ANDROID
+ * @version 0.2.8
  */
 
 /// Package name.
@@ -43,12 +43,12 @@ import android.util.Log;
 /// Library dependencies.
 import com.squareup.okhttp.ResponseBody;
 import org.json.JSONException;
-import org.json.JSONArray;
 
 /// Custom dependencies.
 import org.cacybernet.numberplatescanner.utils.Preferences;
 import org.cacybernet.numberplatescanner.utils.System;
 import org.cacybernet.numberplatescanner.R;
+import org.json.JSONObject;
 
 /**
  * The home page for camera launching.
@@ -87,7 +87,18 @@ public class MainScreen extends AppCompatActivity {
   }
 
   /**
-   * Called when we want to quit the last app activity.
+   * Displays success message box.
+   */
+  private void displaySuccessPopup () {
+    // Creates custom dialog.
+    System.getInstance().initializeDialog((controls, popup) -> {
+      // Listens `click` event on `validate` button.
+      controls.findViewById(R.id.validate).setOnClickListener(view -> popup.cancel());
+    }, this, true, 24, R.layout.success_popup);
+  }
+
+  /**
+   * Called when we want to quit last app activity.
    * @noinspection deprecation
    */
   @SuppressLint({"InflateParams", "MissingSuperCall"})
@@ -111,9 +122,9 @@ public class MainScreen extends AppCompatActivity {
    * Destroys active focus and hides device native keyboard.
    */
   private void clearActiveFocus () {
-    // Gets element that has the active focus.
+    // Gets element that has active focus.
     final View view = this.getWindow().getCurrentFocus();
-    // Puts the focus to the global container.
+    // Puts focus to global container.
     this.uploadScreen.requestFocus();
     // Gets native device keyboard manager.
     final InputMethodManager manager = (InputMethodManager) this.getSystemService(
@@ -145,7 +156,7 @@ public class MainScreen extends AppCompatActivity {
   }
 
   /**
-   * Displays the content of the intent to send to upload screen.
+   * Displays content of intent to send to upload screen.
    * @param intent The intent object instance to expect.
    */
   private void displayIntentContent (@NonNull Intent intent) {
@@ -237,7 +248,7 @@ public class MainScreen extends AppCompatActivity {
   }
 
   /**
-   * Clears all labels and inputs in the display.
+   * Clears all labels and inputs in display.
    */
   private void clearScreenContent () {
     // Sets resolution visibility.
@@ -261,7 +272,7 @@ public class MainScreen extends AppCompatActivity {
   }
 
   /**
-   * Updates the upload screen when an image has been captured.
+   * Updates upload screen when an image has been captured.
    * @param imageData The intent to use to update screen.
    */
   private void updateScreen (@NonNull Intent imageData) {
@@ -333,7 +344,7 @@ public class MainScreen extends AppCompatActivity {
   protected void onCreate (Bundle savedInstanceState) {
     // Calls his parent method.
     super.onCreate(savedInstanceState);
-    // Binds the xml file to this java class.
+    // Binds xml file to this java class.
     this.setContentView(R.layout.main_screen);
     // Changes native status bars color.
     System.getInstance().setBarsColor(R.color.primary_900, this);
@@ -376,7 +387,7 @@ public class MainScreen extends AppCompatActivity {
    */
   @Override
   protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data) {
-    // Calls the parent method.
+    // Calls parent method.
     super.onActivityResult(requestCode, resultCode, data);
     // Whether all are okay.
     if (resultCode == RESULT_OK) {
@@ -419,63 +430,7 @@ public class MainScreen extends AppCompatActivity {
   }
 
   /**
-   * Displays success message box.
-   */
-  private void displaySuccessPopup (JSONArray content) {
-    // Creates custom dialog.
-    System.getInstance().initializeDialog((controls, popup) -> {
-      // Listens `click` event on `validate` button.
-      controls.findViewById(R.id.validate).setOnClickListener(view -> popup.cancel());
-      // Gets server response displayer.
-      final TextView displayer = controls.findViewById(R.id.response);
-      // Tries to extract server response data.
-      try {
-        // Shows server response displayer.
-        displayer.setVisibility(View.VISIBLE);
-        // Whether content really exists.
-        if (content.length() > 0) {
-          // The number plate list.
-          final StringBuilder platesList = new StringBuilder();
-          // The last element index.
-          final int lastIndex = (content.length() - 1);
-          // Building data to be displayed.
-          for (int pos = 0; pos < content.length(); pos++) {
-            // The current detected plate number.
-            final String plateNumber = (String) content.getJSONObject(pos).get("number");
-            // Whether index position isn't at the end.
-            if (pos < lastIndex) platesList.append(plateNumber.trim()).append(", ");
-            // Otherwise.
-            else platesList.append(plateNumber.trim());
-          }
-          // Displays final generated result.
-          displayer.setText(
-            String.format(
-              Locale.US, this.getString(R.string.detected_plates),
-              platesList.toString().trim()
-            )
-          );
-        // Otherwise.
-        } else displayer.setText(this.getString(R.string.no_platenumber));
-        // Clears screen for next the image.
-        this.clearScreenContent();
-      // Something wrong.
-      } catch (JSONException error) {
-        // Displays that error.
-        System.getInstance().displayError(error);
-        // Hides server response displayer.
-        displayer.setVisibility(View.GONE);
-        // Server response retrieve error popup.
-        new Handler().postDelayed(
-          () -> this.displayErrorPopup(
-            R.string.retrieve_error_title, R.string.retrieve_error_message
-          ), DELAY
-        );
-      }
-    }, this, true, 24, R.layout.success_popup);
-  }
-
-  /**
-   * Uploads the captured image to the remote back-end server.
+   * Uploads captured image to remote back-end server.
    */
   private void uploadImage () {
     // Gets api link from preferences.
@@ -484,12 +439,29 @@ public class MainScreen extends AppCompatActivity {
     this.clearActiveFocus();
     // Whether a link was found.
     if (!link.isEmpty()) {
-      // Gets api link parts.
-      final String[] parts = (link.contains(":") ? link.split(":") : new String[]{});
-      // Whether there are no parts.
-      if (parts.length == 0) link = ("http://" + link + ":8000/alpr/lp/");
-      // Whether there are one colon.
-      else if (parts.length == 2) link = ("http://" + link + "/alpr/lp/");
+      // Whether it's an online host.
+      if (link.matches("^https?://[a-z\\d-_.]+\\.[a-z]{2,}(/[a-z\\d-_]+)*/?$")) {
+        // Whether link ends with `/api/v1`.
+        if (link.endsWith("/api/v1")) link = (link + "/upload/");
+        // Whether link ends with `/api/v1/`.
+        else if (link.endsWith("/api/v1/")) link = (link + "upload/");
+        // Whether link ends with `/api/v1/upload`.
+        else if (link.endsWith("/api/v1/upload")) link = (link + "/");
+        // Whether link ends with `.com`, `.net`, `.ai`, etc...
+        else if (link.matches("\\.[a-z]{2,}$")) link = (link + "/api/v1/upload/");
+        // Whether link ends with `.com/`, `.net/`, `.ai/`, etc...
+        else if (link.matches(".*\\.[a-z]{2,}/$")) link = (link + "api/v1/upload/");
+        // Unexpected cases.
+        else link = (link + "/api/v1/upload/");
+      // Otherwise.
+      } else {
+        // Gets api link parts.
+        final String[] parts = (link.contains(":") ? link.split(":") : new String[]{});
+        // Whether there are no parts.
+        if (parts.length == 0) link = ("http://" + link + ":8080/api/v1/upload/");
+        // Whether there are one colon.
+        else if (parts.length == 2) link = ("http://" + link + "/api/v1/upload/");
+      }
       // The final retained link.
       final String retainedApiLink = link;
       // Initializes dialog for loader.
@@ -510,9 +482,13 @@ public class MainScreen extends AppCompatActivity {
               // Gets server response body.
               body = response.body();
               // Gets response content.
-              final JSONArray content = new JSONArray(body.string());
+              final JSONObject content = new JSONObject(body.string());
               // Shows success popup.
-              new Handler().postDelayed(() -> this.displaySuccessPopup(content), DELAY);
+              if (content.has("filename")) new Handler().postDelayed(
+                this::displaySuccessPopup, DELAY
+              );
+              // Otherwise.
+              else throw new JSONException("The expected json's key name is undefined!");
               // Free opened stream.
               body.close();
             // Something wrong.
@@ -520,11 +496,9 @@ public class MainScreen extends AppCompatActivity {
               // Displays that detected error.
               System.getInstance().displayError(error);
               // Server response retrieve error popup.
-              new Handler().postDelayed(
-                () -> this.displayErrorPopup(
-                  R.string.retrieve_error_title, R.string.retrieve_error_message
-                ), DELAY
-              );
+              new Handler().postDelayed(() -> this.displayErrorPopup(
+                R.string.retrieve_error_title, R.string.retrieve_error_message
+              ), DELAY);
             // For any process status.
             } finally {
               // Closes loader.
@@ -533,23 +507,10 @@ public class MainScreen extends AppCompatActivity {
           },
           // An error thrown.
           error -> {
-            // The retrieved error message.
-            final String errorMessage = error.getMessage();
-            // Whether that error comes from server.
-            if (errorMessage != null && errorMessage.contains("204")) {
-              // Shows success popup.
-              new Handler().postDelayed(
-                () -> this.displaySuccessPopup(new JSONArray()), DELAY
-              );
-            // Otherwise.
-            } else {
-              // Image upload error popup.
-              new Handler().postDelayed(
-                () -> this.displayErrorPopup(
-                  R.string.upload_error_title, R.string.upload_error_message
-                ), DELAY
-              );
-            }
+            // Image upload error popup.
+            new Handler().postDelayed(() -> this.displayErrorPopup(
+              R.string.upload_error_title, R.string.upload_error_message
+            ), DELAY);
             // Closes loader.
             popup.dismiss();
           }

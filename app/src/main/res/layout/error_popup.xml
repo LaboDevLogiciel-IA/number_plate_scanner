@@ -60,8 +60,8 @@
       android:textAllCaps = "false"
       android:layout_width = "0dp"
       android:layout_weight = "1"
-      android:id = "@+id/cancel"
       android:gravity = "center"
+      android:id = "@+id/cancel"
       android:textSize = "15sp"
     />
     <!--Save button-->
