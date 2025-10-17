@@ -19,7 +19,7 @@ software.
 
 ## Access links <a id = "links"></a>
 The project distribution version can be accessible through the link below :
-- https://github.com/LaboDevLogiciel-IA/number_plate_scanner/blob/main/dist/numberplate_scanner_v0.1.4b10.apk
+- https://github.com/LaboDevLogiciel-IA/number_plate_scanner/blob/main/dist/numberplate_scanner_v0.2.0b16.apk
 
 ## Reference <a id = "ref"></a>
 The project can be found via the link below :
