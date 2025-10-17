@@ -5,9 +5,9 @@
   <string name = "settings_save_success">Paramètres sauvegardés avec succès !</string>
   <string name = "no_change_detected">Aucune modification n\'a été effectuée.</string>
   <string name = "tutorial_title">Scan d’une plaque d’immatriculation</string>
-  <string name = "copyright">Copyright © 2024 – 2025 CA Cybernet</string>
+  <string name = "copyright">Copyright© 2025 – 2026 GASA Formation</string>
   <string name = "retrieve_error_title">Erreur de récupération</string>
-  <string name = "app_version">version v0.1.4 • build 10</string>
+  <string name = "app_version">version v0.2.0 • build 16</string>
   <string name = "load_error_title">Erreur de chargement</string>
   <string name = "select_image">Sélectionner une image</string>
   <string name = "upload_success_title">Envoye réussi</string>
@@ -16,7 +16,7 @@
   <string name = "start_camera">Démarrer la caméra</string>
   <string name = "progressing">Envoye en cours…</string>
   <string name = "load_image">Charger une image</string>
-  <string name = "app_name">Numberplate Scanner</string>
+  <string name = "sandbox_mode">Mode sandbox</string>
   <string name = "time_value">23h:09min:44s</string>
   <string name = "description">Description</string>
   <string name = "another_image">Une autre</string>
@@ -29,6 +29,7 @@
   <string name = "save">Sauvegarder</string>
   <string name = "retry">Réessayer</string>
   <string name = "cancel">Annuler</string>
+  <string name = "app_name">RAPI</string>
   <string name = "weight">Taille</string>
   <string name = "home">Accueil</string>
   <string name = "quit">Quitter</string>
@@ -41,6 +42,9 @@
   </string>
   <string name = "settings_message">
     Fournissez le lien API à contacter pour le transfert des images récupérées.
+  </string>
+  <string name = "no_plate_found">
+    Désolé! Aucune plaque d\'immatriculation n\'a été trouvée sur cette image.
   </string>
   <string name = "detected_plates">
     Nous avons détecté le(s) plaque(s) d\'immatriculation suivante(s): %s.
