@@ -5,7 +5,7 @@
  * @fileoverview: Texts translated into english.
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
+ * @updated: 2026-01-13
  * @file: english.dart
  * @version: 0.0.1
  */
@@ -19,8 +19,7 @@ final Language english = Language(
   name: "English",
   flagCode: "US",
   keywords: <String>[
-    "united kingdom", "united states",
-    "en_us", "us", "uk", "en"
+    "united kingdom", "united states", "en_us", "us", "uk", "en"
   ],
   data: <String, String>{
     "uploadSuccessMessage": "Your image was successfully uploaded.",
@@ -52,7 +51,7 @@ final Language english = Language(
     "settings": "Settings",
     "apiLink": "API Link",
     "cancel": "Cancel",
-    "appName": "API",
+    "appName": "RAPI",
     "weight": "Size",
     "retry": "Retry",
     "home": "Home",

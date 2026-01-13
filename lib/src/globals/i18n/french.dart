@@ -5,7 +5,7 @@
  * @fileoverview: Texts translated into french.
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
+ * @updated: 2026-01-13
  * @file: french.dart
  * @version: 0.0.1
  */
