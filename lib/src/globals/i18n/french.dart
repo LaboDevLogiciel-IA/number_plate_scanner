@@ -20,72 +20,69 @@ final Language french = Language(
   name: "Français",
   flagCode: "FR",
   data: <String, String>{
-    "quitMsg": "Voulez-vous vraiment quitter l'application maintenant ?",
-    "bluetoothUnexpectedDisconnectionTitle": "Connexion rompue",
-    "establishBluetooth": "Se connecter au fauteuil roulant",
-    "breakBluetooth": "Se déconnecter du fauteuil roulant",
-    "bluetoothConnectionFailedTitle": "Connexion échouée",
-    "noResultsFound": "Aucun résultat(s) trouvé(s)",
-    "bluetooth": "Bluetooth du fauteuil roulant",
-    "ongoingTreatment": "Traitement en cours",
-    "scanFailedTitle": "Erreur de scannage",
-    "gasaFormation": "UATM GASA-Formation",
-    "scanProcessing": "Scannage en cours",
-    "appInfo": "version 0.0.4 - build 04",
-    "devicesList": "Liste des appareils",
-    "unknownDevice": "Appareil inconnu",
-    "disconnected": "Non connecté",
-    "developedBy": "Développé par",
-    "queryTitle": "Interrogation",
-    "reconnect": "Se reconnecter",
-    "appName": "GASA Wheelchair",
-    "connected": "Connecté",
-    "refresh": "Rafraichir",
-    "search": "Rechercher",
-    "validate": "Valider",
-    "retry": "Reéssayer",
+    "uploadSuccessMessage": "Votre image a été envoyée sans problème.",
+    "quitMessage": "Souhaitez-vous vraiment quitter l’application ?",
+    "settingsSaveSuccess": "Paramètres sauvegardés avec succès !",
+    "noChangeDetected": "Aucune modification n'a été effectuée.",
+    "tutorialTitle": "Scan d’une plaque d’immatriculation",
+    "copyright": "Copyright© 2026 – 2027 GASA Formation",
+    "retrieveErrorTitle": "Erreur de récupération",
+    "appVersion": "version v0.3.0 • build 17",
+    "loadErrorTitle": "Erreur de chargement",
+    "selectImage": "Sélectionner une image",
+    "resolution": "412pixels x 2000pixels",
+    "uploadSuccessTitle": "Envoye réussi",
+    "uploadErrorTitle": "Envoye échoué",
+    "startCamera": "Démarrer la caméra",
+    "progressing": "Envoye en cours…",
+    "loadImage": "Charger une image",
+    "sandboxMode": "Mode sandbox",
+    "description": "Description",
+    "timeValue": "23h:09min:44s",
+    "anotherImage": "Une autre",
+    "dateValue": "25/04/2024",
+    "weightValue": "1.95 MB",
+    "settings": "Paramètres",
+    "progressPercent": "0%",
+    "transfer": "Transfert",
+    "apiLink": "Lien API",
+    "save": "Sauvegarder",
+    "retry": "Réessayer",
     "cancel": "Annuler",
-    "status": "Status",
-    "speed": "VITESSE",
+    "weight": "Taille",
+    "appName": "RAPI",
+    "home": "Accueil",
     "quit": "Quitter",
-    "back": "Retour",
-    "jack": "VERIN",
-    "yes": "OUI",
-    "no": "NON",
-    "bluetoothDisconnectErrMsg": (
-      "Impossible de se déconnecter de ce appareil. La nature de l'erreur "
-      "est inconnu."
+    "send": "Envoyer",
+    "time": "Temps",
+    "date": "Date",
+    "ok": "OK",
+    "noPlatenumber": (
+      "Aucune voiture ou véhicule n'a été trouvé(e) sur cette photo."
     ),
-    "bluetoothDisconnectReqMsg": """<div style = "text-align:center;">
-      Voulez-vous vraiment vous déconnecter de l'appareil <b>{name}</b>
-      avec l'adresse <b>{address}</b> ?"
-    </div>""",
-    "connectionMsg": """<div style = "text-align:center;">
-      Souhaitez-vous vraiment vous connecter à l'appareil <b>{name}</b>
-      avec l'adresse <b>{address}</b> ?
-    </div>""",
-    "connectionEstablished": (
-      "✅ Connexion Bluetooth établie avec succès sur <b><i>{name}</i></b>: "
-      "<b><i>{address}</i></b>!"
+    "loadErrorMessage": (
+      "Assurez-vous que l'image n'est pas corrompu ou endommagée."
     ),
-    "bluetoothOffMsg": (
-      "Le bluetooth de votre portable n'est pas activé. Veuillez "
-      "l'activer s'il vous plait puis reéssayez à nouveau."
+    "retrieveErrorMessage": (
+      "Impossible de récupérer et de traiter correctement "
+      "les réponses émises du serveur."
     ),
-    "scanFailedMsg": """<div style = "text-align:center;">
-      Une erreur s'est produite lors du scannage des appareils 
-      ayant leur Bluetooth actif et se trouvant à proximité. 
-      <i><b>Code erreur: {error}</b></i>
-    </div>""",
-    "bluetoothConnectionMsg": (
-      "Vérifiez l'état du bluetooth de votre portable ainsi que celui "
-      "de votre dispositif et assurez-vous d'être à une distance de "
-      "moins de 10 mètres de votre engin."
+    "uploadErrorMessage": (
+      "Vérifiez votre réseau et assurez-vous d'avoir une "
+      "connexion internet stable puis réessayer à nouveau."
     ),
-    "screenHelpMsg": (
-      "ℹ️ Connectez-vous au Bluetooth du fauteuil roulant en "
-      "appuyant sur le bouton <b><i>Se connecter au fauteuil "
-      "roulant</b></i> en bas de l'application."
+    "settingsMessage": (
+      "Fournissez le lien API à contacter pour "
+      "le transfert des images récupérées."
+    ),
+    "noPlateFound": (
+      "Désolé! Aucune plaque d'immatriculation "
+      "n'a été trouvée sur cette image."
+    ),
+    "tutorialMessage": (
+      "Faites en sorte que l'on puisse voire sur votre photo, le véhicule "
+      "accompagné de sa plaque d'immatriculation et assurez-vous d’avoir "
+      "une image la plus nette que possible."
     )
   }
 );

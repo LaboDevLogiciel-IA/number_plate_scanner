@@ -19,78 +19,66 @@ final Language english = Language(
   name: "English",
   flagCode: "US",
   keywords: <String>[
-    "united kingdom",
-    "united states",
-    "en_us",
-    "us",
-    "uk",
-    "en"
+    "united kingdom", "united states",
+    "en_us", "us", "uk", "en"
   ],
   data: <String, String>{
-    "bluetoothUnexpectedDisconnectionTitle": "Connection broken",
-    "quitMsg": "Are you sure you want to exit the app now ?",
-    "establishBluetooth": "Connect to Wheelchair bluetooth",
-    "bluetoothConnectionFailedTitle": "Connection failed",
-    "breakBluetooth": "Break Wheelchair connection",
-    "ongoingTreatment": "Processing, please wait",
-    "devicesList": "Bluetooth devices list",
-    "noResultsFound": "No result(s) found",
-    "gasaFormation": "UATM GASA-Formation",
-    "appInfo": "version 0.0.4 - build 04",
-    "scanFailedTitle": "Scanning error",
-    "bluetooth": "Wheelchair Bluetooth",
-    "scanProcessing": "Scan processing",
-    "unknownDevice": "Unknown device",
-    "disconnected": "Disconnected",
-    "developedBy": "Developed by",
-    "queryTitle": "Interrogation",
-    "appName": "GASA Wheelchair",
-    "reconnect": "Reconnect",
-    "connected": "Connected",
-    "validate": "Validate",
-    "refresh": "Refresh",
-    "search": "Search",
-    "status": "Status",
+    "uploadSuccessMessage": "Your image was successfully uploaded.",
+    "noPlateFound": "Sorry! No license plate found in this image.",
+    "noPlatenumber": "No car or vehicle was found in this photo.",
+    "quitMessage": "Are you sure you want to quit application?",
+    "settingsSaveSuccess": "Settings saved successfully!",
+    "copyright": "Copyright© 2026 – 2027 GASA Formation",
+    "noChangeDetected": "No changes were made.",
+    "tutorialTitle": "Scanning a license plate",
+    "uploadSuccessTitle": "Sending successful",
+    "appVersion": "version v0.3.0 • build 17",
+    "resolution": "412 pixels x 2000 pixels",
+    "retrieveErrorTitle": "Retrieval error",
+    "uploadErrorTitle": "Sending failed",
+    "loadErrorTitle": "Loading error",
+    "selectImage": "Select an image",
+    "anotherImage": "Another Image",
+    "loadImage": "Uploading image",
+    "startCamera": "Start camera",
+    "sandboxMode": "Sandbox mode",
+    "description": "Description",
+    "timeValue": "23h:09min:44s",
+    "progressing": "Uploading…",
+    "dateValue": "25/04/2024",
+    "weightValue": "1.95 MB",
+    "progressPercent": "0%",
+    "transfer": "Uploading",
+    "settings": "Settings",
+    "apiLink": "API Link",
     "cancel": "Cancel",
+    "appName": "API",
+    "weight": "Size",
     "retry": "Retry",
-    "speed": "SPEED",
+    "home": "Home",
     "quit": "Quit",
-    "back": "Back",
-    "jack": "JACK",
-    "yes": "YES",
-    "no": "NO",
-    "bluetoothDisconnectErrMsg": (
-      "Unable to achieve the disconnection causing by a unknown error."
+    "send": "Send",
+    "time": "Time",
+    "date": "Date",
+    "save": "Save",
+    "ok": "OK",
+    "retrieveErrorMessage": (
+      "Unable to retrieve and process responses from server correctly."
     ),
-    "bluetoothDisconnectReqMsg": """<div style = "text-align:center;">
-      Do you really want to disconnect from device <b>{name}</b>
-      with address <b>{address}</b> ?
-    </div>""",
-    "connectionMsg": """<div style = "text-align:center;">
-      Are you sure you want to connect to device <b>{name}</b>
-      with address <b>{address}</b> ?
-    </div>""",
-    "connectionEstablished": (
-      "✅ Bluetooth connection successful established to <b><i>{name}</i>"
-      "</b>: <b><i>{address}</i></b>!"
+    "settingsMessage": (
+      "Provide API link to contact for transfer of retrieved images."
     ),
-    "scanFailedMsg": """<div style = "text-align:center;">
-      An error occurred while scanning for devices with Bluetooth 
-      enabled and in close proximity. <i><b>Error code: {error}</b></i>
-    </div>""",
-    "bluetoothOffMsg": (
-      "Your phone's Bluetooth is not enabled. "
-      "Please enable it and try again."
+    "loadErrorMessage": (
+      "Please ensure the image isn't corrupted or damaged."
     ),
-    "bluetoothConnectionMsg": (
-      "Check the Bluetooth status of your mobile phone and "
-      "your device and make sure you are within 10 meters "
-      "of your device."
+    "uploadErrorMessage": (
+      "Check your network and ensure you have a "
+      "stable internet connection, then try again."
     ),
-    "screenHelpMsg": (
-      "ℹ️ Connect to the wheelchair Bluetooth by pressing "
-      "<b>Connect to Wheelchair Bluetooth</b> button at "
-      "the bottom app."
+    "tutorialMessage": (
+      "Make sure that vehicle is visible in your photo "
+      "along with its license plate and ensure that "
+      "you have the clearest image possible."
     )
   }
 );
