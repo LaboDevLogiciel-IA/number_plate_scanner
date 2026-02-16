@@ -5,8 +5,8 @@
  * @author: Obrymec - https://obrymec.vercel.app
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
- * @version: 0.0.1
+ * @updated: 2026-02-16
+ * @version: 0.0.2
  * @file: std.dart
  */
 
@@ -46,7 +46,7 @@ void usePortraitModeOnly () {
   ]);
 }
 
-/// Converts the given double into an integer, but send it as a string.
+/// Converts given double into an integer, but send it as a string.
 String toIntegerString (double float) {
   // Converts it into a string.
   final String doubleAsString = float.toString();
@@ -57,7 +57,7 @@ String toIntegerString (double float) {
   );
 }
 
-/// Launches others bluetooth device(s) scan in the network.
+/// Launches others bluetooth device(s) scan in network.
 Future<void> launchBluetoothScan () async {
   // Tries to start others bluetooth discovery.
   try {
@@ -70,11 +70,11 @@ Future<void> launchBluetoothScan () async {
   }
 }
 
-/// Sends data from the current application UI to the connected device.
+/// Sends data from current application UI to connected device.
 Future<void> sendBluetoothData (String dataToSend) async {
-  // Tries to send data to the connected device.
+  // Tries to send data to connected device.
   try {
-    // Sends a bluetooth data to the back-end.
+    // Sends a bluetooth data to back-end.
     await AppManifest.backend.invokeMethod(
       "sendBluetoothData", <String, String>{"dataToSend": dataToSend}
     );
@@ -85,11 +85,11 @@ Future<void> sendBluetoothData (String dataToSend) async {
   }
 }
 
-/// Establishes connection to the selected device.
+/// Establishes connection to selected device.
 Future<void> establishConnection (int deviceIndex) async {
-  // Tries to connect to the selected device.
+  // Tries to connect to selected device.
   try {
-    // Sends a bluetooth connection request to the back-end.
+    // Sends a bluetooth connection request to back-end.
     await AppManifest.backend.invokeMethod(
       "connectToDevice", <String, String>{
         "deviceIndex": deviceIndex.toString()
@@ -102,9 +102,9 @@ Future<void> establishConnection (int deviceIndex) async {
   }
 }
 
-/// Stops established connection to the remote device.
+/// Stops established connection to remote device.
 Future<bool> disconnectConnectedDevice () async {
-  // Tries to disconnect the connected device.
+  // Tries to disconnect connected device.
   try {
     // Calls native java code.
     final dynamic result = await AppManifest.backend.invokeMethod(
@@ -123,7 +123,7 @@ Future<bool> disconnectConnectedDevice () async {
 
 /// Checks whether the mobile bluetooth is enabled.
 Future<bool> isBluetoothEnabled () async {
-  // Tries to checks whether the bluetooth is enabled.
+  // Tries to checks whether bluetooth is enabled.
   try {
     // Calls native java code.
     final dynamic result = await AppManifest.backend.invokeMethod(

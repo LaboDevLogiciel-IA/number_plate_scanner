@@ -5,9 +5,9 @@
  * @author: Obrymec - https://obrymec.vercel.app
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
+ * @updated: 2026-02-16
  * @file: manifest.dart
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 
 /// Flutter dependencies.
@@ -31,7 +31,7 @@ enum AppTheme {light, dark}
 /// This class defines application manifest's data across constants values.
 class AppManifest {
   /// Attributes.
-  static const MethodChannel backend = MethodChannel("gasa_wheelchair");
+  static const MethodChannel backend = MethodChannel("lp_scanner");
   static List<Language> languages = <Language>[english, french];
   static List<Skin> themes = <Skin>[lightTheme, darkTheme];
   static AppManifest instance = AppManifest._internal();
@@ -41,7 +41,7 @@ class AppManifest {
   /// Privatised constructor.
   AppManifest._internal();
 
-  /// Returns whether the current app's theme is light or not.
+  /// Returns whether current app's theme is light or not.
   static bool isLightTheme () {
     // The active theme name.
     final String themeName = activeTheme.toString().toLowerCase();
@@ -54,15 +54,15 @@ class AppManifest {
   /// when you will pass an empty [String] or a [String] with
   /// blank spaces.
   static Language? getLanguageBy (String id) {
-    // Whether the passed id is not `null`.
+    // Whether passed id is not `null`.
     if (id.getFilledString () != null) {
-      // The corrected shape of the passed id.
+      // The corrected shape of passed id.
       id = id.replaceAll(' ', '').toLowerCase();
       // Searching language.
       for (int k = 0; k < languages.length; k++) {
-        // Whether id matches with the current language keyword(s).
+        // Whether id matches with current language keyword(s).
         final bool isMatchKeywords = languages[k].getKeywords()!.has(id);
-        // Whether id matches with the current language's name.
+        // Whether id matches with current language's name.
         final bool isMatchName = (
           languages[k].getName()!.replaceAll(' ', '') == id
         );
@@ -78,15 +78,15 @@ class AppManifest {
   /// value. We'll consider that your [id] is `null` when you will pass
   /// an empty [String] or a [String] with blank spaces.
   static Skin? getThemeBy (String id) {
-    // Whether the passed id is not `null`.
+    // Whether passed id is not `null`.
     if (id.getFilledString() != null) {
-      // The corrected shape of the passed id.
+      // The corrected shape of passed id.
       id = id.replaceAll(' ', '').toLowerCase();
       // Searching theme.
       for (int k = 0; k < themes.length; k++) {
-        // Whether id matches with the current theme keyword(s).
+        // Whether id matches with current theme keyword(s).
         final bool isMatchKeywords = themes[k].getKeywords()!.has(id);
-        // Whether id matches with the current theme's name.
+        // Whether id matches with current theme's name.
         final bool isMatchName = (
           themes[k].getName()!.replaceAll(' ', '') == id
         );

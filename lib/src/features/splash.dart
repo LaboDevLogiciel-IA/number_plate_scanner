@@ -5,9 +5,9 @@
  * @fileoverview: The splash screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-01-13
+ * @updated: 2026-02-16
  * @file: splash.dart
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 
 /// Flutter dependencies.
@@ -66,15 +66,15 @@ class _SplashScreenState extends State<SplashScreen> {
     // Calls parent init state method.
     super.initState();
     // Goes to home page after checks language possibilities.
-    //widget.goToHomePage(context);
+    widget.goToHomePage(context);
     // Uses portrait orientation only.
     usePortraitModeOnly();
   }
 
-  /// Called when state is ready and at all time the state will mutate.
+  /// Called when state is ready and at all time state will mutate.
   ///
   /// When view is ready, it generates its own [context] that represent
-  /// the state's [BuildContext] bound to its activity. [build] method
+  /// state's [BuildContext] bound to its activity. [build] method
   /// will call at every time if and only if [setState] method is
   /// called within a program.
   @override
@@ -82,9 +82,11 @@ class _SplashScreenState extends State<SplashScreen> {
     // Called when user press android back button.
     canPop: false,
     child: Scaffold(
+      backgroundColor: Theme.of(context).primaryColorDark,
       bottomNavigationBar: SizedBox(
         height: (MediaQuery.of(context).size.width < 321.0 ? 64.0 : 72.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Organization maker.
             Label(
@@ -111,65 +113,70 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: SingleChildScrollView(
           // Global structure.
-          child: Column(
-            // Components structure.
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              // Makes a little top margin.
-              SizedBox(height: 64.0),
-              // Application logo image.
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  // Makes a little left margin.
-                  SizedBox(width: 14.0),
-                  // Vector representation.
-                  ImageIconLogoDisplayer(
-                    path: AppLogosPaths.appLogo,
-                    disabled: true,
-                    height: 180.0,
-                    width: 180.0
-                  )
-                ]
-              ),
-              // Makes a little top margin.
-              SizedBox(height: 16.0),
-              // Application name.
-              Label(
-                text: lang.getText("appName"),
-                style: TextStyle(
-                  color: Theme.of(context).dialogTheme.backgroundColor,
-                  fontFamily: AppFonts.sanFrancisco,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0
-                )
-              ),
-              // Makes a little top margin.
-              SizedBox(height: 8.0),
-              // Application information.
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Label(
-                    text: lang.getText("appVersion"),
-                    style: TextStyle(
-                      color: Theme.of(context).dialogTheme.backgroundColor,
-                      fontFamily: AppFonts.sanFrancisco,
-                      fontSize: 14.0
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
+            child: Column(
+              // Components structure.
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                // Makes a little top margin.
+                SizedBox(height: 64.0),
+                // Application logo image.
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    // Makes a little left margin.
+                    SizedBox(width: 14.0),
+                    // Vector representation.
+                    ImageIconLogoDisplayer(
+                      path: AppLogosPaths.appLogo,
+                      disabled: true,
+                      height: 180.0,
+                      width: 180.0
                     )
+                  ]
+                ),
+                // Makes a little top margin.
+                SizedBox(height: 16.0),
+                // Application name.
+                Label(
+                  text: lang.getText("appName"),
+                  style: TextStyle(
+                    color: Theme.of(context).dialogTheme.backgroundColor,
+                    fontFamily: AppFonts.sanFrancisco,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0
                   )
-                ]
-              ),
-              // Makes a little top margin.
-              SizedBox(height: (
-                MediaQuery.of(context).size.width < 321.0 ? 32.0 : 48.0
-              )),
-              // Infinite loader.
-              CircularProgressIndicator(
-                color: Theme.of(context).dialogTheme.backgroundColor,
-                strokeWidth: 2.0
-              )
-            ]
+                ),
+                // Makes a little top margin.
+                SizedBox(height: 8.0),
+                // Application information.
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Label(
+                      text: lang.getText("appVersion"),
+                      style: TextStyle(
+                        color: Theme.of(context).dialogTheme.backgroundColor,
+                        fontFamily: AppFonts.sanFrancisco,
+                        fontSize: 14.0
+                      )
+                    )
+                  ]
+                ),
+                // Makes a little top margin.
+                SizedBox(height: (
+                  MediaQuery.of(context).size.width < 321.0 ? 32.0 : 48.0
+                )),
+                // Infinite loader.
+                CircularProgressIndicator(
+                  color: Theme.of(context).dialogTheme.backgroundColor,
+                  strokeWidth: 2.0
+                )
+              ]
+            )
           )
         )
       )

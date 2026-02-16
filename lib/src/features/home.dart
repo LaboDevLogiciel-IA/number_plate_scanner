@@ -5,9 +5,9 @@
  * @fileoverview: Application home screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-01-13
+ * @updated: 2026-02-16
  * @file: home.dart
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 
 /// Flutter dependencies.
@@ -20,13 +20,15 @@ import "package:permission_handler/permission_handler.dart";
 
 /// Custom dependencies.
 import "../globals/dialogs/ios_popup.dart";
+import "../globals/constants/fonts.dart";
+import "../globals/widgets/label.dart";
 import "../globals/utils/std.dart";
 
 /// Manages application home view logic.
 @immutable
 class HomeScreen extends StatefulWidget {
-  /// Initializes the [key] and calls his parent constructor.
-  /// The [Key] represents the unique id to identify this view.
+  /// Initializes [key] and calls his parent constructor.
+  /// The [Key] represents unique id to identify this view.
   const HomeScreen ({super.key});
 
   /// Creates a new object instance of his state. The state
@@ -62,15 +64,13 @@ class HomeScreen extends StatefulWidget {
 
 /// Represents application home page view.
 class _HomeScreenState extends State<HomeScreen> {
-  /// Attributes.
-
-  /// Called when this activity is mounted into the tree.
+  /// Called when this activity is mounted into tree.
   ///
   /// Notice that, [initState] method is called once only.
-  /// If you mutate the state, this method won't call again.
+  /// If you mutate state, this method won't call again.
   @override
   void initState () {
-    // Calls the parent init state method.
+    // Calls parent init state method.
     super.initState();
     // Asks for required permissions.
     widget.askPermissions();
@@ -78,23 +78,46 @@ class _HomeScreenState extends State<HomeScreen> {
     usePortraitModeOnly();
   }
 
-  /// Builds the header to display all helpful data for bluetooth.
+  /// Builds header to display all helpful data for bluetooth.
   AppBar drawHeader () => AppBar(
-    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    backgroundColor: Theme.of(context).primaryColorDark,
+    titleSpacing: 0,
+    leading: Icon(
+      Icons.home,
+      color: Theme.of(context).dialogTheme.backgroundColor
+    ),
     systemOverlayStyle: SystemUiOverlayStyle(
       systemNavigationBarColor: Theme.of(context).primaryColor,
       systemNavigationBarIconBrightness: Brightness.light,
       statusBarColor: Theme.of(context).primaryColor,
       statusBarIconBrightness: Brightness.light
-    )
+    ),
+    title: Label(
+      text: lang.getText("home"),
+      style: TextStyle(
+        color: Theme.of(context).dialogTheme.backgroundColor,
+        fontFamily: AppFonts.sanFrancisco,
+        fontWeight: FontWeight.bold,
+        fontSize: 18.0
+      )
+    ),
+    actions: <IconButton>[
+      IconButton(
+        onPressed: () {},
+        icon: Icon(
+          Icons.settings,
+          color: Theme.of(context).dialogTheme.backgroundColor
+        )
+      )
+    ]
   );
 
-  /// Called when the state is ready and at all time the state will mutate.
+  /// Called when state is ready and at all time state will mutate.
   ///
-  /// When the view is ready, it generates its own [context] that represent
-  /// the state's [BuildContext] bound to its activity. [build] method will
-  /// call at every time if and only if [setState] method is called within
-  /// a program.
+  /// When view is ready, it generates its own [context] that represent
+  /// state's [BuildContext] bound to its activity. [build] method will
+  /// call at every time if and only if [setState] method is called
+  /// within a program.
   @override
   PopScope build (BuildContext context) => PopScope(
     canPop: false,
