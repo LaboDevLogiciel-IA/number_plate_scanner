@@ -5,7 +5,7 @@
  * @author: Obrymec - https://obrymec.vercel.app
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-13
+ * @updated: 2026-03-04
  * @file: light.dart
  * @version: 0.0.1
  */
@@ -38,8 +38,8 @@ final Skin lightTheme = Skin(
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: Color.fromRGBO(255, 255, 255, 0.92),
-      surfaceTintColor: Color.fromRGBO(39, 174, 96, 1.0),
       contentTextStyle: TextStyle(color: Colors.black26),
+      surfaceTintColor: Colors.white,
       iconColor: Colors.grey
     )
   )

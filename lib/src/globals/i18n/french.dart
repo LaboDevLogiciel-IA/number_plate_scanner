@@ -5,7 +5,7 @@
  * @fileoverview: Texts translated into french.
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-13
+ * @updated: 2026-03-04
  * @file: french.dart
  * @version: 0.0.1
  */
@@ -73,7 +73,7 @@ final Language french = Language(
     ),
     "settingsMessage": (
       "Fournissez le lien API à contacter pour "
-      "le transfert des images récupérées."
+      "le transfert les images récupérées."
     ),
     "noPlateFound": (
       "Désolé! Aucune plaque d'immatriculation "

@@ -5,9 +5,9 @@
  * @fileoverview: The splash screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-02-16
+ * @updated: 2026-03-04
  * @file: splash.dart
- * @version: 0.0.2
+ * @version: 0.0.3
  */
 
 /// Flutter dependencies.
@@ -92,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Label(
               text: lang.getText("copyright"),
               style: TextStyle(
-                color: Theme.of(context).dialogTheme.backgroundColor,
+                color: Theme.of(context).dialogTheme.surfaceTintColor,
                 fontFamily: AppFonts.sanFrancisco,
                 fontSize: 14.0
               )
@@ -144,7 +144,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Label(
                   text: lang.getText("appName"),
                   style: TextStyle(
-                    color: Theme.of(context).dialogTheme.backgroundColor,
+                    color: Theme.of(context).dialogTheme.surfaceTintColor,
                     fontFamily: AppFonts.sanFrancisco,
                     fontWeight: FontWeight.bold,
                     fontSize: 24.0
@@ -159,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     Label(
                       text: lang.getText("appVersion"),
                       style: TextStyle(
-                        color: Theme.of(context).dialogTheme.backgroundColor,
+                        color: Theme.of(context).dialogTheme.surfaceTintColor,
                         fontFamily: AppFonts.sanFrancisco,
                         fontSize: 14.0
                       )
@@ -172,7 +172,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 )),
                 // Infinite loader.
                 CircularProgressIndicator(
-                  color: Theme.of(context).dialogTheme.backgroundColor,
+                  color: Theme.of(context).dialogTheme.surfaceTintColor,
                   strokeWidth: 2.0
                 )
               ]

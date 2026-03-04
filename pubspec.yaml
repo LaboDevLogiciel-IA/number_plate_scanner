@@ -34,6 +34,7 @@ flutter:
   # Icons and logos.
   assets:
     - assets/logos/launcher.png
+    - assets/images/scan.png
   # Text fonts.
   fonts:
     - family: SanFrancisco

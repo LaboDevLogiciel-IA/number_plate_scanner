@@ -5,7 +5,7 @@
  * @author: Obrymec - https://obrymec.vercel.app
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
+ * @updated: 2026-03-04
  * @file: button.dart
  * @version: 0.0.1
  */
@@ -91,7 +91,7 @@ class Button extends StatelessWidget {
           // Left icon.
           if (leftIcon != null) leftIcon!,
           // Left margin.
-          if (leftIcon != null && text != null) SizedBox(width: 2.0),
+          if (leftIcon != null && text != null) SizedBox(width: 6.0),
           // Text.
           if (text != null) Flexible(
             child: Label(
@@ -107,7 +107,7 @@ class Button extends StatelessWidget {
             )
           ),
           // Right margin.
-          if (rightIcon != null && text != null) SizedBox(width: 2.0),
+          if (rightIcon != null && text != null) SizedBox(width: 6.0),
           // Right icon.
           if (rightIcon != null) rightIcon!
         ]

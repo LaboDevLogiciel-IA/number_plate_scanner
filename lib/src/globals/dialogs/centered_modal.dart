@@ -6,7 +6,7 @@
  * @file: centered_modal.dart
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-12
+ * @updated: 2026-03-04
  * @version: 0.0.1
  */
 
@@ -143,6 +143,7 @@ Future<void> showCenteredModal ({
   required String? text,
   List<Button>? options,
   double? optionsGap,
+  Widget? content,
   int? delay
 }) async {
   // The message icon path.
@@ -204,7 +205,7 @@ Future<void> showCenteredModal ({
                   )
                 ),
                 // Whether message content is defined.
-                if (text != null) Padding(
+                if (content == null && text != null) Padding(
                   padding: EdgeInsets.only(
                     bottom: ((data["count"] as int) > 0 ? 15.0 : 0.0),
                     right: 20.0, left: 20.0, top: 8.0
@@ -220,6 +221,8 @@ Future<void> showCenteredModal ({
                     )
                   )
                 ),
+                // Whether a custom widget content is required.
+                if (content != null) content,
                 // Whether options are defined.
                 if ((data["count"] as int) > 0) Padding(
                   padding: EdgeInsets.only(top: 5.0),
