@@ -84,8 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Builds header to display all helpful data for bluetooth.
   AppBar drawHeader () => AppBar(
+    shadowColor: Theme.of(context).cardTheme.surfaceTintColor,
     backgroundColor: Theme.of(context).primaryColorDark,
+    scrolledUnderElevation: 4,
     titleSpacing: 0,
+    elevation: 4,
     leading: Icon(
       Icons.home,
       color: Theme.of(context).dialogTheme.backgroundColor
@@ -162,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 8.0),
             // Input text field (API link).
             TextField(
-              enableSuggestions: false,
               controller: apiLink,
               autocorrect: false,
               style: TextStyle(
@@ -209,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ) async => await widget.quitApp(context),
     // Content structure.
     child: Scaffold(
-      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+      backgroundColor: Theme.of(context).dialogTheme.surfaceTintColor,
       appBar: drawHeader(),
       body: Stack(
         children: <Widget>[
