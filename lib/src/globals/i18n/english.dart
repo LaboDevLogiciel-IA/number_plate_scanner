@@ -5,9 +5,9 @@
  * @fileoverview: Texts translated into english.
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-01-13
+ * @updated: 2026-03-09
  * @file: english.dart
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 
 /// Custom dependencies.
@@ -50,13 +50,13 @@ final Language english = Language(
     "transfer": "Uploading",
     "settings": "Settings",
     "apiLink": "API Link",
+    "sendImage": "Send",
     "cancel": "Cancel",
     "appName": "RAPI",
     "weight": "Size",
     "retry": "Retry",
     "home": "Home",
     "quit": "Quit",
-    "send": "Send",
     "time": "Time",
     "date": "Date",
     "save": "Save",

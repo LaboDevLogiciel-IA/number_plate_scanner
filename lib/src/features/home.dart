@@ -5,9 +5,9 @@
  * @fileoverview: Application home screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-03-04
+ * @updated: 2026-03-09
  * @file: home.dart
- * @version: 0.0.3
+ * @version: 0.0.4
  */
 
 /// Flutter dependencies.
@@ -68,6 +68,13 @@ class HomeScreen extends StatefulWidget {
 
 /// Represents application home page view.
 class _HomeScreenState extends State<HomeScreen> {
+  /// Attributes.
+  String resolution = "1400pixels x 912pixels";
+  String time = "16h:37m:36s";
+  String date = "16/05/2024";
+  bool isTransfer = false;
+  String size = "4.08 MB";
+
   /// Called when this activity is mounted into tree.
   ///
   /// Notice that, [initState] method is called once only.
@@ -82,16 +89,75 @@ class _HomeScreenState extends State<HomeScreen> {
     usePortraitModeOnly();
   }
 
-  /// Builds header to display all helpful data for bluetooth.
+  /// Called when android back button is pressed.
+  Future<void> onBackButtonPressed (bool a, dynamic b) async {
+    // Whether we are under transfert view.
+    if (isTransfer) {
+      // Comeback to home screen before.
+      setState(() => isTransfer = false);
+    // Otherwise.
+    } else {
+      // Launches app exit process.
+      await widget.quitApp(context);
+    }
+  }
+
+  /// Builds and
+  Column buildDetailRow (String tagName, String value) => Column(
+    children: <Widget>[
+      // Line data.
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          // Tag or key name.
+          Label(
+            align: TextAlign.left,
+            text: tagName,
+            style: TextStyle(
+              color: Theme.of(context).cardTheme.surfaceTintColor,
+              fontFamily: AppFonts.sanFrancisco,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0
+            )
+          ),
+          // Value associated.
+          Label(
+            align: TextAlign.right,
+            text: value,
+            style: TextStyle(
+              color: Theme.of(context).cardTheme.surfaceTintColor,
+              fontFamily: AppFonts.sanFrancisco,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0
+            )
+          )
+        ]
+      ),
+      // Bottom margin.
+      SizedBox(height: 8.0),
+      // Bottom line.
+      Divider(
+        color: Theme.of(context).cardTheme.color,
+        thickness: 1.0, height: 1.0
+      )
+    ]
+  );
+
+  /// Builds header to display all helpful data for home screen.
   AppBar drawHeader () => AppBar(
     shadowColor: Theme.of(context).cardTheme.surfaceTintColor,
     backgroundColor: Theme.of(context).primaryColorDark,
     scrolledUnderElevation: 4,
     titleSpacing: 0,
     elevation: 4,
-    leading: Icon(
-      Icons.home,
-      color: Theme.of(context).dialogTheme.backgroundColor
+    leading: IconButton(
+      onPressed: (
+        isTransfer ? () => setState(() => isTransfer = false) : null
+      ),
+      icon: Icon(
+        (isTransfer ? Icons.arrow_back : Icons.home),
+        color: Theme.of(context).dialogTheme.backgroundColor
+      )
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
       systemNavigationBarColor: Theme.of(context).primaryColor,
@@ -100,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarIconBrightness: Brightness.light
     ),
     title: Label(
-      text: lang.getText("home"),
+      text: lang.getText(isTransfer ? "transfer" : "home"),
       style: TextStyle(
         color: Theme.of(context).dialogTheme.backgroundColor,
         fontFamily: AppFonts.sanFrancisco,
@@ -115,6 +181,76 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icon(
           Icons.settings,
           color: Theme.of(context).dialogTheme.backgroundColor
+        )
+      )
+    ]
+  );
+
+  /// Builds home section view.
+  Column buildHomeSection () => Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      // License plate scan image.
+      ImageIconLogoDisplayer(
+        path: AppImagesPaths.scan,
+        disabled: true,
+        height: 148,
+        width: 148
+      ),
+      // Bottom margin.
+      SizedBox(height: 16.0),
+      // Tutorial title.
+      Label(
+        text: lang.getText("tutorialTitle"),
+        align: TextAlign.center,
+        style: TextStyle(
+          color: Theme.of(context).cardTheme.surfaceTintColor,
+          fontFamily: AppFonts.sanFrancisco,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0
+        )
+      ),
+      // Bottom margin.
+      SizedBox(height: 4.0),
+      // Tutorial description.
+      Label(
+        text: lang.getText("tutorialMessage"),
+        align: TextAlign.center,
+        style: TextStyle(
+          color: Theme.of(context).cardTheme.shadowColor,
+          fontFamily: AppFonts.sanFrancisco,
+          fontSize: 14.0
+        )
+      ),
+      // Bottom margin.
+      SizedBox(height: 28.0),
+      // Start camera.
+      Button(
+        textColor: Theme.of(context).dialogTheme.backgroundColor!,
+        backgroundColor: Theme.of(context).primaryColorDark,
+        radius: BorderRadius.all(Radius.circular(32.0)),
+        text: lang.getText("startCamera"),
+        width: 176.0,
+        leftIcon: Icon(
+          Icons.camera_alt,
+          color: Theme.of(context).dialogTheme.backgroundColor,
+          size: 18.0
+        )
+      ),
+      // Bottom margin.
+      SizedBox(height: 24.0),
+      // Load image from gallery.
+      Button(
+        textColor: Theme.of(context).dialogTheme.backgroundColor!,
+        backgroundColor: Theme.of(context).primaryColorDark,
+        radius: BorderRadius.all(Radius.circular(32.0)),
+        text: lang.getText("loadImage"),
+        width: 176.0,
+        leftIcon: Icon(
+          Icons.image,
+          color: Theme.of(context).dialogTheme.backgroundColor,
+          size: 18.0
         )
       )
     ]
@@ -196,6 +332,90 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Builds image details.
+  Column buildDetailsSection () => Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      // Image to upload.
+      Container(
+        height: MediaQuery.of(context).size.width < 321.0 ? 128.0 : 256.0,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardTheme.color,
+          border: Border.all(
+            color: Theme.of(context).dialogTheme.surfaceTintColor!,
+            width: 1.0
+          ),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).cardTheme.shadowColor!,
+              blurRadius: 8.0
+            )
+          ]
+        )
+      ),
+      // Bottom margin.
+      SizedBox(height: 8.0),
+      // Image resolution.
+      Label(
+        align: TextAlign.center,
+        text: resolution,
+        style: TextStyle(
+          color: Theme.of(context).dividerColor,
+          fontFamily: AppFonts.sanFrancisco,
+          fontSize: 14.0
+        )
+      ),
+      // Bottom margin.
+      SizedBox(height: 24.0),
+      // Size row.
+      buildDetailRow(lang.getText("weight"), size),
+      // Bottom margin.
+      SizedBox(height: 8.0),
+      // Date row.
+      buildDetailRow(lang.getText("date"), date),
+      // Bottom margin.
+      SizedBox(height: 8.0),
+      // Time row.
+      buildDetailRow(lang.getText("time"), time),
+      // Bottom margin.
+      SizedBox(height: 24.0),
+      // Command controls.
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          // Pick another image.
+          Button(
+            textColor: Theme.of(context).dialogTheme.backgroundColor!,
+            backgroundColor: Theme.of(context).primaryColorDark,
+            radius: BorderRadius.all(Radius.circular(32.0)),
+            text: lang.getText("anotherImage"),
+            width: 108.0,
+            leftIcon: Icon(
+              Icons.image,
+              color: Theme.of(context).dialogTheme.backgroundColor,
+              size: 18.0
+            )
+          ),
+          // Upload image to server.
+          Button(
+            textColor: Theme.of(context).dialogTheme.backgroundColor!,
+            backgroundColor: Theme.of(context).primaryColorDark,
+            radius: BorderRadius.all(Radius.circular(32.0)),
+            text: lang.getText("sendImage"),
+            width: 108.0,
+            leftIcon: Icon(
+              Icons.send,
+              color: Theme.of(context).dialogTheme.backgroundColor,
+              size: 18.0
+            )
+          )
+        ]
+      )
+    ]
+  );
+
   /// Called when state is ready and at all time state will mutate.
   ///
   /// When view is ready, it generates its own [context] that represent
@@ -206,9 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PopScope build (BuildContext context) => PopScope(
     canPop: false,
     // Called when android back button is pressed.
-    onPopInvokedWithResult: (
-      bool a, dynamic b
-    ) async => await widget.quitApp(context),
+    onPopInvokedWithResult: onBackButtonPressed,
     // Content structure.
     child: Scaffold(
       backgroundColor: Theme.of(context).dialogTheme.surfaceTintColor,
@@ -221,73 +439,8 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(
                 MediaQuery.of(context).size.width < 321.0 ? 16.0 : 22.0
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  // License plate scan image.
-                  ImageIconLogoDisplayer(
-                    path: AppImagesPaths.scan,
-                    disabled: true,
-                    height: 148,
-                    width: 148
-                  ),
-                  // Bottom margin.
-                  SizedBox(height: 16.0),
-                  // Tutorial title.
-                  Label(
-                    text: lang.getText("tutorialTitle"),
-                    align: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).cardTheme.surfaceTintColor,
-                      fontFamily: AppFonts.sanFrancisco,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0
-                    )
-                  ),
-                  // Bottom margin.
-                  SizedBox(height: 4.0),
-                  // Tutorial description.
-                  Label(
-                    text: lang.getText("tutorialMessage"),
-                    align: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).cardTheme.shadowColor,
-                      fontFamily: AppFonts.sanFrancisco,
-                      fontSize: 14.0
-                    )
-                  ),
-                  // Bottom margin.
-                  SizedBox(height: 28.0),
-                  // Start camera.
-                  Button(
-                    textColor: Theme.of(context).dialogTheme.backgroundColor!,
-                    backgroundColor: Theme.of(context).primaryColorDark,
-                    radius: BorderRadius.all(Radius.circular(32.0)),
-                    text: lang.getText("startCamera"),
-                    width: 176.0,
-                    leftIcon: Icon(
-                      Icons.camera_alt,
-                      color: Theme.of(context).dialogTheme.backgroundColor,
-                      size: 18.0
-                    )
-                  ),
-                  // Bottom margin.
-                  SizedBox(height: 24.0),
-                  // Load image from gallery.
-                  Button(
-                    textColor: Theme.of(context).dialogTheme.backgroundColor!,
-                    backgroundColor: Theme.of(context).primaryColorDark,
-                    radius: BorderRadius.all(Radius.circular(32.0)),
-                    text: lang.getText("loadImage"),
-                    width: 176.0,
-                    leftIcon: Icon(
-                      Icons.image,
-                      color: Theme.of(context).dialogTheme.backgroundColor,
-                      size: 18.0
-                    )
-                  )
-                ]
+              child: (
+                isTransfer ? buildDetailsSection() : buildHomeSection()
               )
             )
           )

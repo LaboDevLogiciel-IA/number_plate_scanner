@@ -5,9 +5,9 @@
  * @fileoverview: Texts translated into french.
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-03-04
+ * @updated: 2026-03-09
  * @file: french.dart
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 
 /// Custom dependencies.
@@ -45,6 +45,7 @@ final Language french = Language(
     "settings": "Paramètres",
     "progressPercent": "0%",
     "transfer": "Transfert",
+    "sendImage": "Envoyer",
     "apiLink": "Lien API",
     "save": "Sauvegarder",
     "retry": "Réessayer",
@@ -53,7 +54,6 @@ final Language french = Language(
     "appName": "RAPI",
     "home": "Accueil",
     "quit": "Quitter",
-    "send": "Envoyer",
     "time": "Temps",
     "date": "Date",
     "ok": "OK",
