@@ -9,7 +9,7 @@
       android:hardwareAccelerated = "true"
       android:theme = "@style/LaunchTheme"
       android:launchMode = "singleTop"
-      android:name = ".MainActivity"
+      android:name = "uatm.gasa.formation.license_plate_scanner.MainActivity"
       android:exported = "true"
     >
       <!--Specifies an Android theme to apply to this Activity as soon as

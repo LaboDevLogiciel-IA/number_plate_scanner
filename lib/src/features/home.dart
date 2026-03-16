@@ -5,18 +5,23 @@
  * @fileoverview: Application home screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-03-09
+ * @updated: 2026-03-16
  * @file: home.dart
- * @version: 0.0.4
+ * @version: 0.0.5
  */
 
-/// Flutter dependencies.
+/// Dart dependencies.
 library;
+import "dart:ui" as ui;
+import "dart:io";
+
+/// Flutter dependencies.
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 /// Plugin dependencies.
 import "package:permission_handler/permission_handler.dart";
+import "package:image_picker/image_picker.dart";
 
 /// Custom dependencies.
 import "../globals/dialogs/centered_modal.dart";
@@ -69,11 +74,23 @@ class HomeScreen extends StatefulWidget {
 /// Represents application home page view.
 class _HomeScreenState extends State<HomeScreen> {
   /// Attributes.
-  String resolution = "1400pixels x 912pixels";
-  String time = "16h:37m:36s";
-  String date = "16/05/2024";
-  bool isTransfer = false;
-  String size = "4.08 MB";
+  final ImagePicker picker = ImagePicker();
+  bool isTransferView = false;
+  String resolution = "--";
+  File? selectedImage;
+  String time = "--";
+  String date = "--";
+  String size = "--";
+
+  /// Sends image resolution.
+  Future<String> getImageResolution (File image) async {
+    // Gets image as bytes.
+    final Uint8List bytes = await File(image.path).readAsBytes();
+    // Decodes image to get real dimensions.
+    final ui.Image decoded = await decodeImageFromList(bytes);
+    // Sends resolution as string.
+    return "${decoded.width}pixels x ${decoded.height}pixels";
+  }
 
   /// Called when this activity is mounted into tree.
   ///
@@ -89,20 +106,100 @@ class _HomeScreenState extends State<HomeScreen> {
     usePortraitModeOnly();
   }
 
+  /// Sends image size.
+  Future<String> getImageSize (File image) async {
+    // Gets image size.
+    final int bytes = await image.length();
+    // Computes size for mega bytes.
+    final int mbSize = (1024 * 1024);
+    // Whether image is too tiny.
+    if (bytes < 1024) return "$bytes B";
+    // Whether image is medium size.
+    if (bytes < mbSize) return "${(bytes / 1024).toStringAsFixed(2)} KB";
+    // Whether image is too large.
+    return "${(bytes / mbSize).toStringAsFixed(2)} MB";
+  }
+
+  /// Gets actual time.
+  String getCurrentTime () {
+    // Gets current date and time.
+    final DateTime now = DateTime.now();
+    // Gets current minute as string format.
+    final String minute = now.minute.toString().padLeft(2, '0');
+    // Gets current second as string format.
+    final String second = now.second.toString().padLeft(2, '0');
+    // Gets current hour as string format.
+    final String hour = now.hour.toString().padLeft(2, '0');
+    // Sends final result.
+    return "${hour}h/${minute}m/${second}s";
+  }
+
+  /// Gets actual date.
+  String getCurrentDate () {
+    // Gets current date and time.
+    final DateTime now = DateTime.now();
+    // Gets current month as string format.
+    final String month = now.month.toString().padLeft(2, '0');
+    // Gets current day as string format.
+    final String day = now.day.toString().padLeft(2, '0');
+    // Gets current year as string format.
+    final String year = now.year.toString();
+    // Sends final result.
+    return "$day/$month/$year";
+  }
+
   /// Called when android back button is pressed.
   Future<void> onBackButtonPressed (bool a, dynamic b) async {
-    // Whether we are under transfert view.
-    if (isTransfer) {
-      // Comeback to home screen before.
-      setState(() => isTransfer = false);
-    // Otherwise.
-    } else {
+    // Whether we aren't under transfert view.
+    if (!isTransferView) {
       // Launches app exit process.
       await widget.quitApp(context);
+    // Otherwise.
+    } else {
+      // Resets transfer view state.
+      isTransferView = false;
+      // Resets selected image.
+      selectedImage = null;
+      // Resets image resolution.
+      resolution = "--";
+      // Resets upload time.
+      time = "--";
+      // Resets upload date.
+      date = "--";
+      // Resets image weight.
+      size = "--";
+      // Comeback to home screen before.
+      setState(() => {});
     }
   }
 
-  /// Builds and
+  /// Picks an image from mobile native gallery.
+  Future<void> pickFromGallery () async {
+    // Opens gallery to select an image.
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery, imageQuality: 80
+    );
+    // Whether no image was really selected.
+    if (image == null) return;
+    // The fresh loaded image file.
+    final File loadedImage = File(image.path);
+    // Gets image resolution.
+    resolution = await getImageResolution(loadedImage);
+    // Gets image weight.
+    size = await getImageSize(loadedImage);
+    // Gets selected image file.
+    selectedImage = loadedImage;
+    // Gets current time.
+    time = getCurrentTime();
+    // Gets current date.
+    date = getCurrentDate();
+    // Goes to transfer view.
+    isTransferView = true;
+    // Updates view data.
+    setState(() => {});
+  }
+
+  /// Builds and draws loaded image data.
   Column buildDetailRow (String tagName, String value) => Column(
     children: <Widget>[
       // Line data.
@@ -151,12 +248,13 @@ class _HomeScreenState extends State<HomeScreen> {
     titleSpacing: 0,
     elevation: 4,
     leading: IconButton(
-      onPressed: (
-        isTransfer ? () => setState(() => isTransfer = false) : null
-      ),
       icon: Icon(
-        (isTransfer ? Icons.arrow_back : Icons.home),
+        (isTransferView ? Icons.arrow_back : Icons.home),
         color: Theme.of(context).dialogTheme.backgroundColor
+      ),
+      onPressed: (
+        !isTransferView ? null :
+        () => setState(() => isTransferView = false)
       )
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -166,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarIconBrightness: Brightness.light
     ),
     title: Label(
-      text: lang.getText(isTransfer ? "transfer" : "home"),
+      text: lang.getText(isTransferView ? "transfer" : "home"),
       style: TextStyle(
         color: Theme.of(context).dialogTheme.backgroundColor,
         fontFamily: AppFonts.sanFrancisco,
@@ -244,6 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Button(
         textColor: Theme.of(context).dialogTheme.backgroundColor!,
         backgroundColor: Theme.of(context).primaryColorDark,
+        onTap: (Object? _) async => await pickFromGallery(),
         radius: BorderRadius.all(Radius.circular(32.0)),
         text: lang.getText("loadImage"),
         width: 176.0,
@@ -260,6 +359,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> displaySettings () async {
     // Input text field controller.
     final TextEditingController apiLink = TextEditingController();
+    // Loads last saved api link whether possible.
+    apiLink.text = (await fetchApiLink() ?? '');
+    // Whether context isn't mounted.
+    if (!mounted) return;
     // Shows a custom centered popup.
     await showCenteredModal(
       title: lang.getText("settings"),
@@ -272,13 +375,8 @@ class _HomeScreenState extends State<HomeScreen> {
         active: <String>[lang.getText("save")],
         context: context,
         onTap: (int option) {
-          // Whether `cancel` option is tapped.
-          if (option == 0) {
-            debugPrint("Cancel!");
           // Whether `save` option is tapped.
-          } else if (option == 1) {
-            debugPrint("Save!");
-          }
+          if (option == 1) saveApiLink(apiLink.text);
         }
       ),
       content: Padding(
@@ -339,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
     children: <Widget>[
       // Image to upload.
       Container(
-        height: MediaQuery.of(context).size.width < 321.0 ? 128.0 : 256.0,
+        height: (MediaQuery.of(context).size.width < 322.0 ? 128.0 : 256.0),
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
@@ -352,7 +450,14 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Theme.of(context).cardTheme.shadowColor!,
               blurRadius: 8.0
             )
-          ]
+          ],
+          image: (
+            selectedImage == null ? null :
+            DecorationImage(
+              image: FileImage(selectedImage!),
+              fit: BoxFit.cover
+            )
+          )
         )
       ),
       // Bottom margin.
@@ -389,6 +494,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Button(
             textColor: Theme.of(context).dialogTheme.backgroundColor!,
             backgroundColor: Theme.of(context).primaryColorDark,
+            onTap: (Object? _) async => await pickFromGallery(),
             radius: BorderRadius.all(Radius.circular(32.0)),
             text: lang.getText("anotherImage"),
             width: 108.0,
@@ -437,10 +543,10 @@ class _HomeScreenState extends State<HomeScreen> {
             // Global structure.
             child: Padding(
               padding: EdgeInsets.all(
-                MediaQuery.of(context).size.width < 321.0 ? 16.0 : 22.0
+                MediaQuery.of(context).size.width < 322.0 ? 16.0 : 22.0
               ),
               child: (
-                isTransfer ? buildDetailsSection() : buildHomeSection()
+                isTransferView ? buildDetailsSection() : buildHomeSection()
               )
             )
           )

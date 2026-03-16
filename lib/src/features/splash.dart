@@ -5,9 +5,9 @@
  * @fileoverview: The splash screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-03-04
+ * @updated: 2026-03-16
  * @file: splash.dart
- * @version: 0.0.3
+ * @version: 0.0.4
  */
 
 /// Flutter dependencies.
@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
     child: Scaffold(
       backgroundColor: Theme.of(context).primaryColorDark,
       bottomNavigationBar: SizedBox(
-        height: (MediaQuery.of(context).size.width < 321.0 ? 64.0 : 72.0),
+        height: (MediaQuery.of(context).size.width < 322.0 ? 64.0 : 72.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -159,16 +159,18 @@ class _SplashScreenState extends State<SplashScreen> {
                     Label(
                       text: lang.getText("appVersion"),
                       style: TextStyle(
-                        color: Theme.of(context).dialogTheme.surfaceTintColor,
                         fontFamily: AppFonts.sanFrancisco,
-                        fontSize: 14.0
+                        fontSize: 14.0,
+                        color: (
+                          Theme.of(context).dialogTheme.surfaceTintColor
+                        )
                       )
                     )
                   ]
                 ),
                 // Makes a little top margin.
                 SizedBox(height: (
-                  MediaQuery.of(context).size.width < 321.0 ? 32.0 : 48.0
+                  MediaQuery.of(context).size.width < 322.0 ? 32.0 : 48.0
                 )),
                 // Infinite loader.
                 CircularProgressIndicator(

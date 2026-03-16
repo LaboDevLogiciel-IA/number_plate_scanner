@@ -5,8 +5,8 @@
  * @author: Obrymec - https://obrymec.vercel.app
  * @supported: ANDROID & IOS
  * @created: 2026-01-12
- * @updated: 2026-02-16
- * @version: 0.0.2
+ * @updated: 2026-03-16
+ * @version: 0.0.3
  * @file: std.dart
  */
 
@@ -35,17 +35,6 @@ void overrideBarColors () {
   );
 }
 
-/// Makes active app activity be portrait mode.
-void usePortraitModeOnly () {
-  // Overrides bar colors.
-  overrideBarColors();
-  // Uses portrait orientation only.
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.portraitUp
-  ]);
-}
-
 /// Converts given double into an integer, but send it as a string.
 String toIntegerString (double float) {
   // Converts it into a string.
@@ -57,26 +46,24 @@ String toIntegerString (double float) {
   );
 }
 
-/// Launches others bluetooth device(s) scan in network.
-Future<void> launchBluetoothScan () async {
-  // Tries to start others bluetooth discovery.
-  try {
-    // Calls native java code.
-    await AppManifest.backend.invokeMethod("fetchBluetoothDevices");
-  // An error throw.
-  } on PlatformException catch (e) {
-    // Prints that error.
-    debugPrint("Message: ${e.message}, Stack: ${e.stacktrace}");
-  }
+/// Makes active app activity be portrait mode.
+void usePortraitModeOnly () {
+  // Overrides bar colors.
+  overrideBarColors();
+  // Uses portrait orientation only.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
+  ]);
 }
 
-/// Sends data from current application UI to connected device.
-Future<void> sendBluetoothData (String dataToSend) async {
-  // Tries to send data to connected device.
+/// Saves api link to mobile preferences.
+Future<void> saveApiLink (String apiLink) async {
+  // Tries to save that api link to mobile preferences.
   try {
-    // Sends a bluetooth data to back-end.
+    // Calls native java code.
     await AppManifest.backend.invokeMethod(
-      "sendBluetoothData", <String, String>{"dataToSend": dataToSend}
+      "saveApiLinkToPreferences", <String, String>{"newApiLink": apiLink}
     );
   // An error throw.
   } on PlatformException catch (e) {
@@ -85,58 +72,20 @@ Future<void> sendBluetoothData (String dataToSend) async {
   }
 }
 
-/// Establishes connection to selected device.
-Future<void> establishConnection (int deviceIndex) async {
-  // Tries to connect to selected device.
+/// Fetches api link value from mobile preferences.
+Future<String?> fetchApiLink () async {
+  // Tries to get saved api link from preferences.
   try {
-    // Sends a bluetooth connection request to back-end.
-    await AppManifest.backend.invokeMethod(
-      "connectToDevice", <String, String>{
-        "deviceIndex": deviceIndex.toString()
-      }
+    // Gets last saved api link from preferences.
+    return await AppManifest.backend.invokeMethod<String?>(
+      "loadApiLinkFromPreferences"
     );
   // An error throw.
   } on PlatformException catch (e) {
     // Prints that error.
     debugPrint("Message: ${e.message}, Stack: ${e.stacktrace}");
-  }
-}
-
-/// Stops established connection to remote device.
-Future<bool> disconnectConnectedDevice () async {
-  // Tries to disconnect connected device.
-  try {
-    // Calls native java code.
-    final dynamic result = await AppManifest.backend.invokeMethod(
-      "disconnectDevice"
-    );
-    // Sends final result as expected type.
-    return (result as bool);
-  // An error throw.
-  } on PlatformException catch (e) {
-    // Prints that error.
-    debugPrint("Message: ${e.message}, Stack: ${e.stacktrace}");
-    // Nothing to send, sorry.
-    return false;
-  }
-}
-
-/// Checks whether the mobile bluetooth is enabled.
-Future<bool> isBluetoothEnabled () async {
-  // Tries to checks whether bluetooth is enabled.
-  try {
-    // Calls native java code.
-    final dynamic result = await AppManifest.backend.invokeMethod(
-      "isBluetoothEnabled"
-    );
-    // Sends final result as expected type.
-    return (result as bool);
-  // An error throw.
-  } on PlatformException catch (e) {
-    // Prints that error.
-    debugPrint("Message: ${e.message}, Stack: ${e.stacktrace}");
-    // Nothing to send, sorry.
-    return false;
+    // Nothing found.
+    return null;
   }
 }
 
