@@ -5,9 +5,9 @@
  * @fileoverview: Application home screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-03-16
+ * @updated: 2026-03-23
  * @file: home.dart
- * @version: 0.0.5
+ * @version: 0.0.6
  */
 
 /// Dart dependencies.
@@ -22,6 +22,8 @@ import "package:flutter/services.dart";
 /// Plugin dependencies.
 import "package:permission_handler/permission_handler.dart";
 import "package:image_picker/image_picker.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:http/http.dart";
 
 /// Custom dependencies.
 import "../globals/dialogs/centered_modal.dart";
@@ -29,6 +31,7 @@ import "../globals/dialogs/ios_popup.dart";
 import "../globals/constants/images.dart";
 import "../globals/constants/fonts.dart";
 import "../globals/widgets/button.dart";
+import "../globals/dialogs/loader.dart";
 import "../globals/widgets/image.dart";
 import "../globals/widgets/label.dart";
 import "../globals/utils/std.dart";
@@ -148,6 +151,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return "$day/$month/$year";
   }
 
+  /// Saves api link to mobile local preferences.
+  Future<void> saveToPrefs (int option, String link) async {
+    // Whether another option is tapped.
+    if (option != 1) return;
+    // Saves API link to preferences.
+    saveApiLink(link);
+    // Displays a toast.
+    Fluttertoast.showToast(
+      backgroundColor: Theme.of(context).cardTheme.surfaceTintColor,
+      textColor: Theme.of(context).dialogTheme.surfaceTintColor,
+      msg: lang.getText("settingsSaveSuccess"),
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      fontSize: 14.0
+    );
+  }
+
   /// Called when android back button is pressed.
   Future<void> onBackButtonPressed (bool a, dynamic b) async {
     // Whether we aren't under transfert view.
@@ -180,23 +200,77 @@ class _HomeScreenState extends State<HomeScreen> {
       source: ImageSource.gallery, imageQuality: 80
     );
     // Whether no image was really selected.
-    if (image == null) return;
-    // The fresh loaded image file.
-    final File loadedImage = File(image.path);
-    // Gets image resolution.
-    resolution = await getImageResolution(loadedImage);
-    // Gets image weight.
-    size = await getImageSize(loadedImage);
-    // Gets selected image file.
-    selectedImage = loadedImage;
-    // Gets current time.
-    time = getCurrentTime();
-    // Gets current date.
-    date = getCurrentDate();
-    // Goes to transfer view.
-    isTransferView = true;
-    // Updates view data.
-    setState(() => {});
+    if (image == null) {
+      // Whether context isn't mounted.
+      if (!mounted) return;
+      // Invalid image or damage.
+      await showIosPopup(
+        message: lang.getText("loadErrorMessage"),
+        options: <String>[lang.getText("ok")],
+        title: lang.getText("loadErrorTitle"),
+        active: <String>[lang.getText("ok")],
+        context: context
+      );
+    // Otherwise.
+    } else {
+      // The fresh loaded image file.
+      final File loadedImage = File(image.path);
+      // Gets image resolution.
+      resolution = await getImageResolution(loadedImage);
+      // Gets image weight.
+      size = await getImageSize(loadedImage);
+      // Gets selected image file.
+      selectedImage = loadedImage;
+      // Gets current time.
+      time = getCurrentTime();
+      // Gets current date.
+      date = getCurrentDate();
+      // Goes to transfer view.
+      isTransferView = true;
+      // Updates view data.
+      setState(() => {});
+    }
+  }
+
+  /// Returns configured api link regardless all possibles cases.
+  Future<String> getConfiguredAPILink () async {
+    // Gets api link from preferences.
+    final String link = (await fetchApiLink() ?? '');
+    // Regex for `.com/`, `.net/`, `.ai/`, etc...
+    final RegExp reg3 = RegExp(r".*\.[a-z]{2,}/$");
+    // Regex for `.com`, `.net`, `.ai`, etc...
+    final RegExp reg2 = RegExp(r"\.[a-z]{2,}$");
+    // Whether no link found.
+    if (link.isEmpty) return '';
+    // Regex for remote api link.
+    final RegExp reg1 = RegExp(
+      r"^https?://[a-z\d\-_.]+\.[a-z]{2,}(/[a-z\d\-_]+)*/?$"
+    );
+    // Whether it's not an online host.
+    if (!reg1.hasMatch(link)) {
+      // Gets api link parts.
+      final List<String> parts = (link.contains(':') ? link.split(':') : []);
+      // Whether there are no parts.
+      if (parts.isEmpty) {return "http://$link:8080/api/v1/upload/";}
+      // Whether we found port number.
+      else if (parts.length == 2) {return "http://$link/api/v1/upload/";}
+      // Otherwise.
+      else {return link;}
+    // Otherwise.
+    } else {
+      // Whether link ends with `/api/v1`.
+      if (link.endsWith("/api/v1")) {return "$link/upload/";}
+      // Whether link ends with `/api/v1/`.
+      else if (link.endsWith("/api/v1/")) {return "${link}upload/";}
+      // Whether link ends with `/api/v1/upload`.
+      else if (link.endsWith("/api/v1/upload")) {return "$link/";}
+      // Whether link ends with `.com`, `.net`, `.ai`, etc...
+      else if (reg2.hasMatch(link)) {return "$link/api/v1/upload/";}
+      // Whether link ends with `.com/`, `.net/`, `.ai/`, etc...
+      else if (reg3.hasMatch(link)) {return "${link}api/v1/upload/";}
+      // Unexpected cases.
+      else {return link;}
+    }
   }
 
   /// Builds and draws loaded image data.
@@ -370,14 +444,11 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       text: null,
       options: configureOptions(
+        onTap: (int option) async => await saveToPrefs(option, apiLink.text),
         options: <String>[lang.getText("cancel"), lang.getText("save")],
         optionsAlignment: OptionsAlignment.auto,
         active: <String>[lang.getText("save")],
-        context: context,
-        onTap: (int option) {
-          // Whether `save` option is tapped.
-          if (option == 1) saveApiLink(apiLink.text);
-        }
+        context: context
       ),
       content: Padding(
         padding: EdgeInsets.only(
@@ -509,6 +580,7 @@ class _HomeScreenState extends State<HomeScreen> {
             textColor: Theme.of(context).dialogTheme.backgroundColor!,
             backgroundColor: Theme.of(context).primaryColorDark,
             radius: BorderRadius.all(Radius.circular(32.0)),
+            onTap: (Object? _) async => uploadImage(),
             text: lang.getText("sendImage"),
             width: 108.0,
             leftIcon: Icon(
@@ -521,6 +593,99 @@ class _HomeScreenState extends State<HomeScreen> {
       )
     ]
   );
+
+  /// Uploads current selected image to server.
+  Future<void> uploadImage () async {
+    // Whether selected image is undefined.
+    if (selectedImage == null) return;
+    // Gets configured api link.
+    final String apiLink = await getConfiguredAPILink();
+    // Whether no link found.
+    if (apiLink.isEmpty) {
+      // Whether context isn't mounted.
+      if (!mounted) return;
+      // Displays a toast.
+      Fluttertoast.showToast(
+        backgroundColor: Theme.of(context).cardTheme.surfaceTintColor,
+        textColor: Theme.of(context).dialogTheme.surfaceTintColor,
+        msg: lang.getText("noLinkFound"),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 14.0
+      );
+    // Otherwise.
+    } else {
+      // The selected image full path.
+      final String path = selectedImage!.path;
+      // The url to upload image to server.
+      final Uri uri = Uri.parse(apiLink);
+      // The file to upload.
+      final MultipartFile file = await MultipartFile.fromPath(
+        "file", path, filename: path.split('/').last
+      );
+      // Composes request for image upload.
+      final MultipartRequest request = MultipartRequest("POST", uri)
+        ..files.add(file);
+      // Whether context is mounted.
+      if (mounted) {
+        // Displays a loader about a progressive task.
+        showLoader(
+          title: lang.getText("progressing"),
+          context: context, infinite: true
+        );
+      }
+      // Tries to upload this image to server.
+      try {
+        // Now, uploads selected image really.
+        final StreamedResponse streamed = await request.send();
+        // When server returns a response about upload.
+        final Response response = await Response.fromStream(streamed);
+        // Whether context isn't mounted.
+        if (!mounted) return;
+        // Closes opened loader.
+        Navigator.pop(context);
+        // Whether request doesn't succeeded.
+        if (response.statusCode < 200 && response.statusCode > 299) {
+          // An unknown error.
+          throw Exception("Unable to upload this image.");
+        // Otherwise.
+        } else {
+          // Shows a custom dialog box for successful upload operation.
+          await showIosPopup(
+            message: lang.getText("uploadSuccessMessage"),
+            title: lang.getText("uploadSuccessTitle"),
+            options: <String>[lang.getText("ok")],
+            active: <String>[lang.getText("ok")],
+            context: context
+          );
+        }
+      // An error throw.
+      } on Exception catch (error) {
+        debugPrint("$error");
+        // Whether context isn't mounted.
+        if (!mounted) return;
+        // Closes opened loader.
+        Navigator.pop(context);
+        // Shows a custom dialog box for failed upload operation.
+        await showIosPopup(
+          options: <String>[lang.getText("cancel"), lang.getText("retry")],
+          active: <String>[lang.getText("retry")],
+          title: lang.getText("uploadErrorTitle"),
+          supportHTML: true,
+          context: context,
+          onTap: (int option) async {
+            // Whether `retry` is pressed.
+            if (option == 1) await uploadImage();
+          },
+          message: (
+            lang.getText("uploadErrorMessage").replaceAll(
+              "{details}", error.toString()
+            )
+          )
+        );
+      }
+    }
+  }
 
   /// Called when state is ready and at all time state will mutate.
   ///
