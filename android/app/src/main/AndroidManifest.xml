@@ -2,9 +2,14 @@
 <manifest xmlns:android = "http://schemas.android.com/apk/res/android">
   <!--Permissions-->
   <uses-feature android:name = "android.hardware.camera" android:required = "false"/>
+  <uses-permission android:name = "android.permission.INTERNET"/>
   <uses-permission android:name = "android.permission.CAMERA"/>
   <!--Main application-->
-  <application android:icon = "@mipmap/launcher" android:label = "RAPI">
+  <application
+    android:usesCleartextTraffic = "true"
+    android:icon = "@mipmap/launcher"
+    android:label = "RAPI"
+  >
     <!--Main activity-->
     <activity
       android:configChanges = "orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
