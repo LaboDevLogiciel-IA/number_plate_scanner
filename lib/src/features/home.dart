@@ -5,9 +5,9 @@
  * @fileoverview: Application home screen.
  * @supported: ANDROID & IOS
  * @created: 2026-01-13
- * @updated: 2026-03-23
+ * @updated: 2026-03-30
  * @file: home.dart
- * @version: 0.0.6
+ * @version: 0.0.7
  */
 
 /// Dart dependencies.
@@ -54,7 +54,10 @@ class HomeScreen extends StatefulWidget {
     // Waiting for 02 seconds.
     await Future.delayed(
       Duration(seconds: 2),
-      () async => await <Permission>[Permission.location].request()
+      () async => await <Permission>[
+        Permission.location,
+        Permission.camera
+      ].request()
     );
   }
 
@@ -95,6 +98,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return "${decoded.width}pixels x ${decoded.height}pixels";
   }
 
+  /// Picks an image from mobile native gallery.
+  Future<void> pickFromGallery () async {
+    // Opens gallery to select an image.
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery, imageQuality: 80
+    );
+    // Manages picked image.
+    managePickedImage(image);
+  }
+
   /// Called when this activity is mounted into tree.
   ///
   /// Notice that, [initState] method is called once only.
@@ -107,6 +120,18 @@ class _HomeScreenState extends State<HomeScreen> {
     widget.askPermissions();
     // Uses portrait orientation only.
     usePortraitModeOnly();
+  }
+
+  /// Captures an image from mobile native camera.
+  Future<void> pickFromCamera () async {
+    // Opens gallery to select an image.
+    final XFile? image = await picker.pickImage(
+      preferredCameraDevice: CameraDevice.rear,
+      source: ImageSource.camera,
+      imageQuality: 80
+    );
+    // Manages picked image.
+    managePickedImage(image);
   }
 
   /// Sends image size.
@@ -193,26 +218,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  /// Picks an image from mobile native gallery.
-  Future<void> pickFromGallery () async {
-    // Opens gallery to select an image.
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.gallery, imageQuality: 80
-    );
-    // Whether no image was really selected.
-    if (image == null) {
-      // Whether context isn't mounted.
-      if (!mounted) return;
-      // Invalid image or damage.
-      await showIosPopup(
-        message: lang.getText("loadErrorMessage"),
-        options: <String>[lang.getText("ok")],
-        title: lang.getText("loadErrorTitle"),
-        active: <String>[lang.getText("ok")],
-        context: context
-      );
-    // Otherwise.
-    } else {
+  /// Manages picked image.
+  Future<void> managePickedImage (XFile? image) async {
+    // Whether no image found.
+    if (image == null) return;
+    // Tries to extract selected image.
+    try {
       // The fresh loaded image file.
       final File loadedImage = File(image.path);
       // Gets image resolution.
@@ -229,6 +240,18 @@ class _HomeScreenState extends State<HomeScreen> {
       isTransferView = true;
       // Updates view data.
       setState(() => {});
+    // Whether an error throw.
+    } on Exception catch (_) {
+      // Whether context isn't mounted.
+      if (!mounted) return;
+      // Invalid image or damage.
+      await showIosPopup(
+        message: lang.getText("loadErrorMessage"),
+        options: <String>[lang.getText("ok")],
+        title: lang.getText("loadErrorTitle"),
+        active: <String>[lang.getText("ok")],
+        context: context
+      );
     }
   }
 
@@ -359,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   /// Builds home section view.
-  Column buildHomeSection () => Column(
+  Column buildHome () => Column(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -401,9 +424,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Button(
         textColor: Theme.of(context).dialogTheme.backgroundColor!,
         backgroundColor: Theme.of(context).primaryColorDark,
+        onTap: (Object? _) async => await pickFromCamera(),
         radius: BorderRadius.all(Radius.circular(32.0)),
         text: lang.getText("startCamera"),
-        width: 176.0,
+        width: 196.0,
         leftIcon: Icon(
           Icons.camera_alt,
           color: Theme.of(context).dialogTheme.backgroundColor,
@@ -419,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (Object? _) async => await pickFromGallery(),
         radius: BorderRadius.all(Radius.circular(32.0)),
         text: lang.getText("loadImage"),
-        width: 176.0,
+        width: 196.0,
         leftIcon: Icon(
           Icons.image,
           color: Theme.of(context).dialogTheme.backgroundColor,
@@ -502,7 +526,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Builds image details.
-  Column buildDetailsSection () => Column(
+  Column buildDetails () => Column(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -568,7 +592,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: (Object? _) async => await pickFromGallery(),
             radius: BorderRadius.all(Radius.circular(32.0)),
             text: lang.getText("anotherImage"),
-            width: 108.0,
+            width: 128.0,
             leftIcon: Icon(
               Icons.image,
               color: Theme.of(context).dialogTheme.backgroundColor,
@@ -582,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> {
             radius: BorderRadius.all(Radius.circular(32.0)),
             onTap: (Object? _) async => uploadImage(),
             text: lang.getText("sendImage"),
-            width: 108.0,
+            width: 128.0,
             leftIcon: Icon(
               Icons.send,
               color: Theme.of(context).dialogTheme.backgroundColor,
@@ -710,9 +734,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(
                 MediaQuery.of(context).size.width < 322.0 ? 16.0 : 22.0
               ),
-              child: (
-                isTransferView ? buildDetailsSection() : buildHomeSection()
-              )
+              child: (isTransferView ? buildDetails() : buildHome())
             )
           )
         ]
