@@ -72,11 +72,12 @@ a folder called <b><i>soft</i></b> inside <b><i>home</i></b>
 folder like that : <b><i>/home/soft/flutter</i></b> and run
 the following commands :
 ```sh
-sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa clang ninja-build libgtk-3-dev;\
+sudo apt-get install -y cmake mesa-utils curl git unzip xz-utils zip libglu1-mesa clang ninja-build libgtk-3-dev;\
 cd ~;\
-export PATH="$PATH:~/soft/flutter/bin";\
-source .bashrc;\
+echo 'export PATH="$HOME/soft/flutter/bin:$PATH"' >> ~/.bashrc;\
+source ~/.bashrc;\
 flutter --version;\
+flutter doctor --android-licenses;\
 flutter doctor
 ```
 ⚠️ Make sure you to install correctly
